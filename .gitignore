@@ -1,3 +1,10 @@
+# Project-specific exclusions
+#############################
+fr.openfoodfacts.org.products.csv
+
+# Github's standard python exclusions
+#####################################
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
