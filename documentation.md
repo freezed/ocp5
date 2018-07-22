@@ -1,15 +1,18 @@
-# Documentation
+Documentation
+=============
 
-## Installation
+## Installation
 
 1. get the code : `git clone git@github.com:freezed/ocp5.git`
-2. if you want, create a dedicated virtualenv
-3. adds dependencies : `cd ocp5; pip3 install -r requirement.txt`
-4. run it : `./main.py`
+2. create a dedicated virtualenv
+3. ~adds dependencies : `cd ocp5; pip3 install -r requirement.txt`~
+4. dowload the [HUDGE CSV file][3] ([more info about data here][4])
+5. set up the data on a MariaDB/MySQL server with [`create-db.sql`][5]
+5. ~run it : `./main.py`~
 
 ## Usage
 
-### A - Find an alternative product
+### 1. Find an alternative product
 
 1. Type the number corresponding to the product's category
 2. Type the number corresponding to the choosen alternative product
@@ -19,7 +22,7 @@
      - the product link to [OpenFoodFacts][1] website
 4. Decide if you want to save the alternative product in DB
 
-### B - Retrieve my alternative products
+### 2. Retrieve saved alternatives products
 
 1. Type the number corresponding to the choosen alternative product
 2. The system shows you the product sheet :
@@ -30,7 +33,7 @@
 ## Data kept
 
 1. Tagged `'countries':'france'`
-2. [OpenFoodFacts][1] data uses more than 170 fields. Here are those we keep in this project :
+2. [OpenFoodFacts data uses more than 170 fields][2]. Here are those we keep in this project :
 
 ```
 1	code
@@ -63,7 +66,9 @@
 165	nutrition-score-fr_100g
 ```
 
-3. hello
 
-
-[1]: https://fr.openfoodfacts.org/ "OpenFoodFacts project"
+[1]: https://world.openfoodfacts.org/ "OpenFoodFacts project"
+[2]: https://world.openfoodfacts.org/data/data-fields.txt "OpenFoodFacts field list"
+[3]: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv "CSV Data Export"
+[4]: https://world.openfoodfacts.org/data "OpenFoodFacts data page"
+[5]: https://github.com/freezed/ocp5/blob/master/create-db.sql

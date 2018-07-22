@@ -56,4 +56,4 @@ _La dernière version à jour de ce document est disponible sur [github](https:/
 [6]: https://github.com/freezed/ocp5/blob/master/mpd.png
 [7]: https://github.com/freezed/ocp5/blob/master/create-db.sql
 [8]: https://github.com/freezed/ocp5/blob/master/approach.md
-[9]: https://github.com/freezed/ocp5/blob/master/documentation.md
+[9]: https://github.com/freezed/ocp5/blob/master/documentation.md#documentation "Project documentation"
