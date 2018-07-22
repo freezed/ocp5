@@ -27,34 +27,30 @@
      - a shop where you can buy it (if available)
      - the product link to [OpenFoodFacts][1] website
 
-## Data used
+## Data kept
 
-With the field 'countries':'france'
+1. Tagged `'countries':'france'`
+2. [OpenFoodFacts][1] data uses more than 170 fields. Here are those we keep in this project :
 
-Data provided by [OpenFoodFacts][1] is saved in more than 170 fields. Here are those we will need in this projects:
-
+```
 1	code
 2	url
 4	created_t
 6	last_modified_t
 8	product_name
 10	quantity
-11	packaging
-13	brands
+11	packaging_tags
+13	brands_tags
 17	categories_fr
-18	origins
-20	manufacturing_places
+18	origins_tags
+20	manufacturing_places_tags
 24	labels_fr
-25	emb_codes
 30	purchase_places
 31	stores
 35	ingredients_text
 41	serving_size
 42	serving_quantity
 47	additives_fr
-48	ingredients_from_palm_oil_n
-51	ingredients_that_may_be_from_palm_oil_n
-53	ingredients_that_may_be_from_palm_oil_tags
 55	nutrition_grade_fr
 60	states_fr
 62	main_category_fr
@@ -65,7 +61,9 @@ Data provided by [OpenFoodFacts][1] is saved in more than 170 fields. Here are t
 123	sodium_100g
 124	alcohol_100g
 165	nutrition-score-fr_100g
+```
 
+3. hello
 
 
 [1]: https://fr.openfoodfacts.org/ "OpenFoodFacts project"
