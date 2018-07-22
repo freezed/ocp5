@@ -24,10 +24,10 @@ _La dernière version à jour de ce document est disponible sur [github](https:/
 
 ## Etapes
 
-- [ ] Plannifier le travail
-- [ ] L'organiser dans un [tableau agile][5]
-- [ ] Écrire [la documentation][9]
-- [ ] Coder
+1. Plannifier le travail
+2. L'organiser dans un [tableau agile][5]
+3. Écrire [la documentation][9]
+4. Coder
 
 ## Contraintes
 
@@ -54,6 +54,6 @@ _La dernière version à jour de ce document est disponible sur [github](https:/
 [4]: https://github.com/freezed/ocp5/blob/master/README.md
 [5]: https://github.com/freezed/ocp5/projects/1
 [6]: https://github.com/freezed/ocp5/blob/master/mpd.png
-[7]: https://github.com/freezed/ocp5/blob/master/create-db.md
+[7]: https://github.com/freezed/ocp5/blob/master/create-db.sql
 [8]: https://github.com/freezed/ocp5/blob/master/approach.md
 [9]: https://github.com/freezed/ocp5/blob/master/documentation.md
