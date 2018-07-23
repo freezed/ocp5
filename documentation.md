@@ -42,8 +42,6 @@ Documentation
 6	last_modified_t
 8	product_name
 10	quantity
-11	packaging_tags
-13	brands_tags
 17	categories_fr
 18	origins_tags
 20	manufacturing_places_tags
