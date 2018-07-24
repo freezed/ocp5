@@ -40,7 +40,7 @@ _La dernière version à jour de ce document est disponible sur [github](https:/
 - [Code source publié sur _Github_][4]
 - [Tableau agile][5]
 - [Modèle physique de données][6]
-- [Script de création de votre base de données][7]
+- Script de création de votre base de données
 - [Document texte expliquant la démarche][8]
     * difficultés rencontrées / solutions trouvées
     * lien _Github_
@@ -53,7 +53,7 @@ _La dernière version à jour de ce document est disponible sur [github](https:/
 [3]: https://fr.openfoodfacts.org/
 [4]: https://github.com/freezed/ocp5/blob/master/README.md
 [5]: https://github.com/freezed/ocp5/projects/1
-[6]: https://github.com/freezed/ocp5/blob/master/mpd.png
+[6]: https://github.com/freezed/ocp5/blob/master/doc/pdm.png
 [7]: https://github.com/freezed/ocp5/blob/master/create-db.sql
-[8]: https://github.com/freezed/ocp5/blob/master/approach.md
-[9]: https://github.com/freezed/ocp5/blob/master/documentation.md#documentation "Project documentation"
+[8]: https://github.com/freezed/ocp5/blob/master/doc/approach.md
+[9]: https://github.com/freezed/ocp5/blob/master/doc/documentation.md#documentation "Project documentation"

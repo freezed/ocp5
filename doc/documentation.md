@@ -4,32 +4,28 @@ Documentation
 ## Created with
 
 - `python 3.6.4 `
-- ~`Requests`~ [`TODO #4`][4]
+- `Requests`
 - ~`PyMySQL` or `openfoodfacts-python`~ [`TODO #4`][4]
 
 ## Installation
 
 1. get the code : `git clone git@github.com:freezed/ocp5.git`
-2. create a dedicated virtualenv : `python3.7 -m venv .venv; source .venv/bin/activate`
-3. ~adds dependencies : `cd ocp5; pip install -r requirement.txt`~ [TODO #4][4]
+2. create a dedicated virtualenv : `python3 -m venv .venv; source .venv/bin/activate`
+3. adds dependencies : `cd ocp5; pip install -r requirements.txt`
 
 ## Collects data
 
 1. [OpenFoodFacts data uses more than 170 fields][92]. Here are those we keep localy :
 ```
 code
-url
-last_modified_t
 product_name
 categories_fr
-purchase_places
-stores
 nutrition-score-fr_100g
 ```
 2. Request will only ask for tagged products with `'countries':'france'`
-3. ~Physical Data Model~ [`TODO #2`][2]
+3. Physical Data Model
 
-![-Physical Data Model-][2]
+![-Physical Data Model-][96]
 
 4. ~Creates local MariaDB/MySQL : `./create-db.py`~ [`TODO #2`][2]
 

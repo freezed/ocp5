@@ -1,0 +1,55 @@
+@startuml
+
+title Physical data model\n
+
+/' = = = = = = = STYLE = = = = = = = '/
+hide empty methods
+hide circle
+skinparam linetype ortho
+skinparam class {
+    BackgroundColor<<assoc>> lightblue
+}
+
+/' = = = = = = = MACRO = = = = = = = '/
+!define rel(a,b,c,d,e) a c e
+!define pyk(n,t="MEDIUMINT NOT NULL UNSIGNED") <font color="red">PK:<b>n</b> <size:09>[t]</size></font>
+!define fnk(n,r,t="MEDIUMINT NOT NULL UNSIGNED") <font color="blue">FK:<b>n</b> <size:09>[t]</size></font>
+!define pfk(n,r,t="MEDIUMINT NOT NULL UNSIGNED") <font color="orangered">PFK:<b>n</b> <size:09>[t]</size></font>
+!define att(n,u,s) {field} <b>n</b> [s]
+
+/' = = = = = = = CLASSE = = = = = = = '/
+class product
+class category
+class prod_category <<assoc>>
+
+/' = = = = = = = RELATION = = = = = = = '/
+rel(product,1..,--,1..*,category)
+
+/' = = = = = = = KEY = = = = = = = '/
+class product {
+    pyk(id)
+    ..
+}
+class category {
+    pyk(id)
+    ..
+}
+class prod_category <<assoc>> {
+    pfk(category_id,category.id)
+    pfk(product_id,product.id)
+    ..
+}
+/' = = = = = = = ATTRIBUTE = = = = = = = '/
+class product {
+    att(name,String,VARCHAR(200))
+    att(nutrition_grades,String,VARCHAR(1))
+}
+class category {
+    att(name,String,VARCHAR(200))
+}
+
+/' = = = = = = = ASSOCIATION = = = = = = = '/
+rel(product,.,--,.,prod_category)
+rel(category,.,-,.,prod_category)
+
+@enduml
