@@ -13,6 +13,16 @@ nurition grade.
 import json
 import requests
 
+# CONFIG
+FIELD_KEPT = [
+    'product_name',
+    'stores',
+    'nutrition_grades',
+    'categories_tags',
+    'id'
+]
+
+
 def get_product(code):
     """
     Call OpenFF API to get data of a single product
@@ -34,6 +44,19 @@ def get_product(code):
     >>> print(product['categories_tags'])
     ['en:sugary-snacks', 'en:biscuits-and-cakes', 'en:biscuits', 'fr:petits-beurres']
     """
+
+    response = requests.get(
+        "https://fr.openfoodfacts.org/api/v0/product/{}.json".format(code)
+    )
+    product_data = json.loads(response.text)
+
+    product = {}
+
+    for field in FIELD_KEPT:
+        product[field] = product_data['product'][field]
+
+    return product
+
 
 if __name__ == "__main__":
     """ Starting doctests """
