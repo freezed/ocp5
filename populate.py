@@ -18,8 +18,7 @@ FIELD_KEPT = [
     'product_name',
     'stores',
     'nutrition_grades',
-    'categories_tags',
-    'id'
+    'categories_tags'
 ]
 
 
@@ -63,18 +62,31 @@ def get_product(code):
     True
     """
 
+    try:
+        int(code)
 
-    response = requests.get(
-        "https://fr.openfoodfacts.org/api/v0/product/{}.json".format(code)
-    )
-    product_data = json.loads(response.text)
+    except ValueError as except_detail:
+        # print("Exception: «{}»".format(except_detail))
+        return False
 
-    product = {}
+    else:
+        response = requests.get(
+            "https://fr.openfoodfacts.org/api/v0/product/{}.json".format(code)
+        )
+        product_data = json.loads(response.text)
 
-    for field in FIELD_KEPT:
-        product[field] = product_data['product'][field]
+        if product_data['status'] and response.status_code == 200:
+            product = {}
 
-    return product
+            for field in FIELD_KEPT:
+                product[field] = product_data['product'][field]
+
+            return product
+
+        else:
+            return False
+
+
 
 
 if __name__ == "__main__":
