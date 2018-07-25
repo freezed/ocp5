@@ -41,6 +41,9 @@ def get_product(code):
     ['en:sugary-snacks', 'en:biscuits-and-cakes', 'en:biscuits', 'fr:petits-beurres']
 
     >>> prod_oreo = get_product('8410000810004')
+    >>> print(prod_oreo['code'])
+    8410000810004
+
     >>> print(prod_oreo['product_name'])
     Biscuit Oreo
 
@@ -65,7 +68,7 @@ def get_product(code):
     try:
         int(code)
 
-    except ValueError as except_detail:
+    except ValueError:  # as except_detail:
         # print("Exception: «{}»".format(except_detail))
         return False
 
@@ -73,20 +76,18 @@ def get_product(code):
         response = requests.get(
             "https://fr.openfoodfacts.org/api/v0/product/{}.json".format(code)
         )
-        product_data = json.loads(response.text)
+        product_json = json.loads(response.text)
 
-        if product_data['status'] and response.status_code == 200:
-            product = {}
+        if product_json['status'] and response.status_code == 200:
+            product_kept = {'code': code}
 
             for field in FIELD_KEPT:
-                product[field] = product_data['product'][field]
+                product_kept[field] = product_json['product'][field]
 
-            return product
+            return product_kept
 
         else:
             return False
-
-
 
 
 if __name__ == "__main__":
