@@ -28,22 +28,41 @@ def get_product(code):
     Call OpenFF API to get data of a single product
 
     :Tests:
-    >>> product = get_product('3017760000109')
-    >>> print(product['id'])
-    3017760000109
-
-    >>> print(product['product_name'])
+    >>> prod_beurre = get_product('3017760000109')
+    >>> print(prod_beurre['product_name'])
     Le Véritable Petit Beurre
 
-    >>> print(product['stores'])
+    >>> print(prod_beurre['stores'])
     Super U
 
-    >>> print(product['nutrition_grades'])
+    >>> print(prod_beurre['nutrition_grades'])
     e
 
-    >>> print(product['categories_tags'])
+    >>> print(prod_beurre['categories_tags'])
     ['en:sugary-snacks', 'en:biscuits-and-cakes', 'en:biscuits', 'fr:petits-beurres']
+
+    >>> prod_oreo = get_product('8410000810004')
+    >>> print(prod_oreo['product_name'])
+    Biscuit Oreo
+
+    >>> print(prod_oreo['stores'])
+    Cora,Irma.dk,Leader Price
+
+    >>> print(prod_oreo['nutrition_grades'])
+    e
+
+    >>> print(prod_oreo['categories_tags'])
+    ['en:sugary-snacks', 'en:biscuits-and-cakes', 'en:biscuits', 'en:chocolate-biscuits', 'es:sandwich-cookies']
+
+    >>> prod_false = get_product('1664')
+    >>> prod_false is False
+    True
+
+    >>> prod_string = get_product('string')
+    >>> prod_string is False
+    True
     """
+
 
     response = requests.get(
         "https://fr.openfoodfacts.org/api/v0/product/{}.json".format(code)
