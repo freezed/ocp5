@@ -90,6 +90,66 @@ def get_product(code):
             return False
 
 
+def get_category(name):
+    """
+    Call OpenFF API to get data of products in a single category
+
+    First try, TODO :
+    - need to get all the products of a category
+    - need to keep more fields from a category than from a product, maybe
+        FIELD_KEPT should be turned into a dict like this :
+        {'category':[fields, …], 'products':[fields, …]}
+
+    :Tests:
+    >>> prod_bisc = get_category('biscuits')
+    >>> 'count' in prod_bisc
+    True
+
+    >>> prod_false = get_category('1664')
+    >>> prod_false
+    False
+
+    >>> 'stores' in prod_bisc['products'][0]
+    True
+
+    >>> 'product_name' in prod_bisc['products'][0]
+    True
+
+    >>> 'nutrition_grades' in prod_bisc['products'][0]
+    True
+
+    >>> 'categories_tags' in prod_bisc['products'][0]
+    True
+
+    # >>> 'countries' in prod_bisc['products'][0]
+    # True
+
+    # >>> 'id' in prod_bisc['products'][0]
+    # True
+    """
+
+    str(name)
+
+    response = requests.get(
+        "https://fr.openfoodfacts.org/category/{}.json".format(name)
+    )
+    category_json = json.loads(response.text)
+
+    if category_json['count'] is not 0 and response.status_code == 200:
+        category_kept = {
+            'count': category_json['count'],
+            'products': [{}]
+            }
+
+        for field in FIELD_KEPT:
+            category_kept['products'][0][field] = category_json['products'][0][field]
+
+        return category_kept
+
+    else:
+        return False
+
+
 if __name__ == "__main__":
     """ Starting doctests """
 
