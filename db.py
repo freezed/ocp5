@@ -18,7 +18,7 @@ CONFIG = {
     'pass': 'loff',
     'db': 'loff',
     'char': 'utf8',
-    'file': 'create-db-loff.sl'
+    'file': 'create-db-loff.sql'
 }
 DB_NOT_FOUND = True
 
@@ -29,6 +29,11 @@ def sql_create_db(filename=CONFIG['file']):
     Get the SQL instruction to create the DB for file
 
     :return: a list of each SQL query whithout the trailing ";"
+
+    :Tests:
+    >>> sql_create_db('wronq_file.sql')
+    File load error : wronq_file.sql
+    False
     """
     from os import path
 
