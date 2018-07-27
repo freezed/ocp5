@@ -12,14 +12,7 @@ nurition grade.
 """
 import json
 import requests
-
-# CONFIG
-FIELD_KEPT = [
-    'product_name',
-    'stores',
-    'nutrition_grades',
-    'categories_tags'
-]
+from config import FIELD_KEPT
 
 
 def get_product(code):

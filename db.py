@@ -10,21 +10,13 @@ Connect to DB
  """
 
 import pymysql.cursors
+from config import DB_CONFIG
 
-# CONFIG
-CONFIG = {
-    'host': 'localhost',
-    'user': 'loff',
-    'pass': 'loff',
-    'db': 'loff',
-    'char': 'utf8',
-    'file': 'create-db-loff.sql'
-}
 DB_NOT_FOUND = True
 
 
 # FUNCTION
-def sql_create_db(filename=CONFIG['file']):
+def sql_create_db(filename=DB_CONFIG['file']):
     """
     Get the SQL instruction to create the DB for file
 
@@ -53,10 +45,10 @@ def sql_create_db(filename=CONFIG['file']):
 
 # WORK
 # Connect to the database
-CONNECTION = pymysql.connect(host=CONFIG['host'],
-                             user=CONFIG['user'],
-                             password=CONFIG['pass'],
-                             charset=CONFIG['char'],
+CONNECTION = pymysql.connect(host=DB_CONFIG['host'],
+                             user=DB_CONFIG['user'],
+                             password=DB_CONFIG['pass'],
+                             charset=DB_CONFIG['char'],
                              cursorclass=pymysql.cursors.DictCursor)
 
 try:
@@ -67,9 +59,9 @@ try:
 
         for idx, val in enumerate(db_list):
 
-            if CONFIG['db'] in db_list[idx].values():
+            if DB_CONFIG['db'] in db_list[idx].values():
                 DB_NOT_FOUND = False
-                cursor.execute("USE {}".format(CONFIG['db']))
+                cursor.execute("USE {}".format(DB_CONFIG['db']))
                 print('DB exist : ready to use it.')
 
         # No DB, create it
