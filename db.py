@@ -12,74 +12,93 @@ Connect to DB
 import pymysql.cursors
 from config import DB_CONFIG
 
-DB_NOT_FOUND = True
 
-
-# FUNCTION
-def sql_create_db(filename=DB_CONFIG['file']):
+class Db():
     """
-    Get the SQL instruction to create the DB for file
+    Class doc
 
-    :return: a list of each SQL query whithout the trailing ";"
-
-    :Tests:
-    >>> sql_create_db('wronq_file.sql')
-    File load error : wronq_file.sql
-    False
+    :Test:
+    >>> test = Db()
+    >>> print(test.message)
+    DB «localhost» exist, using it
     """
-    from os import path
 
-    # Loading file
-    if path.isfile(filename) is False:
-        print("File load error : {}".format(filename))
-        return False
+    def __init__(self):
+        """
+        Class initialiser
+        """
+        self.DB_NOT_FOUND = True
+        self.MSG = {
+            "request": "-- REQUEST #{} : --{}",
+            "database": "DB «{}» exist, using it"}
+        self.message = ""
 
-    else:
-        with open(filename, "r") as sql_file:
-            # Split file in list
-            ret = sql_file.read().split(';')
-            # drop last empty entry
-            ret.pop()
-            return ret
+        # Connect to the database
+        self.connection = pymysql.connect(
+            host=DB_CONFIG['host'],
+            user=DB_CONFIG['user'],
+            password=DB_CONFIG['pass'],
+            charset=DB_CONFIG['char'],
+            cursorclass=pymysql.cursors.DictCursor)
 
+        try:
+            with self.connection.cursor() as cursor:
+                # Show DB
+                cursor.execute("SHOW DATABASES")
+                db_list = cursor.fetchall()
 
-# WORK
-# Connect to the database
-CONNECTION = pymysql.connect(host=DB_CONFIG['host'],
-                             user=DB_CONFIG['user'],
-                             password=DB_CONFIG['pass'],
-                             charset=DB_CONFIG['char'],
-                             cursorclass=pymysql.cursors.DictCursor)
+                for idx, unused in enumerate(db_list):
 
-try:
-    with CONNECTION.cursor() as cursor:
-        # Show DB
-        cursor.execute("SHOW DATABASES")
-        db_list = cursor.fetchall()
+                    if DB_CONFIG['db'] in db_list[idx].values():
+                        DB_NOT_FOUND = False
+                        cursor.execute("USE {}".format(DB_CONFIG['db']))
+                        self.message = self.MSG['database'].format(
+                            DB_CONFIG['host'])
 
-        for idx, val in enumerate(db_list):
+                # No DB, create it
+                if DB_NOT_FOUND:
+                    request_list = self.get_sql_from_file()
 
-            if DB_CONFIG['db'] in db_list[idx].values():
-                DB_NOT_FOUND = False
-                cursor.execute("USE {}".format(DB_CONFIG['db']))
-                print('DB exist : ready to use it.')
+                    if request_list is not False:
 
-        # No DB, create it
-        if DB_NOT_FOUND:
-            request_list = sql_create_db()
+                        for idx, sql_request in enumerate(request_list):
+                            self.message = self.MSG['request'].format(
+                                idx, sql_request)
+                            cursor.execute(sql_request + ';')
 
-            if request_list is not False:
+        except pymysql.err.OperationalError as except_detail:
+            print("DB error: «{}»".format(except_detail))
 
-                for idx, sql_request in enumerate(request_list):
-                    # print(sql_request + ';')
-                    print("-- REQUEST #{} : --{}".format(idx, sql_request))
-                    cursor.execute(sql_request + ';')
+    @staticmethod
+    def get_sql_from_file(filename=DB_CONFIG['file']):
+        """
+        Get the SQL instruction from a file
 
-except pymysql.err.OperationalError as except_detail:
-    print("DB error: «{}»".format(except_detail))
+        :return: a list of each SQL query whithout the trailing ";"
 
-finally:
-    CONNECTION.close()
+        :Tests:
+        >>> Db.get_sql_from_file('wronq_file.sql')
+        File load error : wronq_file.sql
+        False
+        """
+        from os import path
+
+        # File did not exists
+        if path.isfile(filename) is False:
+            print("File load error : {}".format(filename))
+            return False
+
+        else:
+            with open(filename, "r") as sql_file:
+                # Split file in list
+                ret = sql_file.read().split(';')
+                # drop last empty entry
+                ret.pop()
+                return ret
+
+    def __del__(self):
+        """ Object destruction"""
+        self.connection.close()
 
 
 if __name__ == "__main__":
