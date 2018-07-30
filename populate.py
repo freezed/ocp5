@@ -83,18 +83,20 @@ def get_product(code):
             return False
 
 
-def get_category(name):
+def get_category(name, from_file=False):
     """
     Call OpenFF API to get data of products in a single category
 
     First try, TODO :
+    - work offline
     - need to get all the products of a category
     - need to keep more fields from a category than from a product, maybe
         FIELD_KEPT should be turned into a dict like this :
         {'category':[fields, …], 'products':[fields, …]}
 
     :Tests:
-    >>> prod_bisc = get_category('biscuits')
+    # >>> prod_bisc = get_category('biscuits')
+    >>> prod_bisc = get_category('biscuits', True)
     >>> 'count' in prod_bisc
     True
 
@@ -119,16 +121,34 @@ def get_category(name):
 
     # >>> 'id' in prod_bisc['products'][0]
     # True
+
+    >>> get_category('wrong_file', True)
+    File load error : sample-category-wrong_file.json
+    False
     """
 
-    str(name)
+    if from_file:
+        from os import path
 
-    response = requests.get(
-        "https://fr.openfoodfacts.org/category/{}.json".format(name)
-    )
-    category_json = json.loads(response.text)
+        filename = 'sample-category-{}.json'.format(str(name))
+        # File did not exists
+        if path.isfile(filename) is False:
+            print("File load error : {}".format(filename))
+            status = False
+            category_json = {'count': 0}
 
-    if category_json['count'] is not 0 and response.status_code == 200:
+        else:
+            with open(filename, "r") as json_file:
+                category_json = json.loads(json_file.read())
+                status = 200
+    else:
+        response = requests.get(
+            "https://fr.openfoodfacts.org/category/{}.json".format(str(name))
+        )
+        category_json = json.loads(response.text)
+        status = response.status_code
+
+    if category_json['count'] is not 0 and status == 200:
         category_kept = {
             'count': category_json['count'],
             'products': [{}]
