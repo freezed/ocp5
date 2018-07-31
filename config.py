@@ -20,9 +20,18 @@ DB_CONFIG = {
 }
 
 # API
-FIELD_KEPT = [
-    'product_name',
-    'stores',
-    'nutrition_grades',
-    'categories_tags'
-]
+FIELD_KEPT = {
+    'product': [
+        'product_name',
+        'nutrition_grades',
+        'categories_tags'
+    ],
+    'category': [
+        '_id',
+        'url',
+        'product_name',
+        'nutrition_grades',
+        'categories_tags'
+    ]
+
+        }

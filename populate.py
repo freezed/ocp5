@@ -12,6 +12,7 @@ nurition grade.
 """
 import json
 import requests
+# import pprint
 from config import FIELD_KEPT
 
 
@@ -19,13 +20,15 @@ def get_product(code):
     """
     Call OpenFF API to get data of a single product
 
-    :Tests:
+    :Tests ONLINE:
     >>> prod_beurre = get_product('3017760000109')
+    >>> prod_oreo = get_product('8410000810004')
+    >>> prod_false = get_product('1664')
+    >>> prod_string = get_product('string')
+
+    :Tests OFFLINE:
     >>> print(prod_beurre['product_name'])
     Le Véritable Petit Beurre
-
-    >>> print(prod_beurre['stores'])
-    Super U
 
     >>> print(prod_beurre['nutrition_grades'])
     e
@@ -33,15 +36,11 @@ def get_product(code):
     >>> print(prod_beurre['categories_tags'])
     ['en:sugary-snacks', 'en:biscuits-and-cakes', 'en:biscuits', 'fr:petits-beurres']
 
-    >>> prod_oreo = get_product('8410000810004')
     >>> print(prod_oreo['code'])
     8410000810004
 
     >>> print(prod_oreo['product_name'])
     Biscuit Oreo
-
-    >>> print(prod_oreo['stores'])
-    Cora,Irma.dk,Leader Price
 
     >>> print(prod_oreo['nutrition_grades'])
     e
@@ -49,11 +48,9 @@ def get_product(code):
     >>> print(prod_oreo['categories_tags'])
     ['en:sugary-snacks', 'en:biscuits-and-cakes', 'en:biscuits', 'en:chocolate-biscuits', 'es:sandwich-cookies']
 
-    >>> prod_false = get_product('1664')
     >>> prod_false is False
     True
 
-    >>> prod_string = get_product('string')
     >>> prod_string is False
     True
     """
@@ -74,7 +71,7 @@ def get_product(code):
         if product_json['status'] and response.status_code == 200:
             product_kept = {'code': code}
 
-            for field in FIELD_KEPT:
+            for field in FIELD_KEPT['product']:
                 product_kept[field] = product_json['product'][field]
 
             return product_kept
@@ -87,24 +84,22 @@ def get_category(name, from_file=False):
     """
     Call OpenFF API to get data of products in a single category
 
+    :return: Dict filled with products & kept fields
+
     First try, TODO :
-    - work offline
+    - work offline with local JSON
     - need to get all the products of a category
-    - need to keep more fields from a category than from a product, maybe
-        FIELD_KEPT should be turned into a dict like this :
-        {'category':[fields, …], 'products':[fields, …]}
 
-    :Tests:
-    # >>> prod_bisc = get_category('biscuits')
-    >>> prod_bisc = get_category('biscuits', True)
-    >>> 'count' in prod_bisc
-    True
-
+    :Tests ONLINE:
     >>> prod_false = get_category('1664')
     >>> prod_false
     False
 
-    >>> 'stores' in prod_bisc['products'][0]
+    # >>> prod_bisc = get_category('biscuits')
+
+    :Tests OFFLINE:
+    >>> prod_bisc = get_category('biscuits', True)
+    >>> 'count' in prod_bisc
     True
 
     >>> 'product_name' in prod_bisc['products'][0]
@@ -116,15 +111,11 @@ def get_category(name, from_file=False):
     >>> 'categories_tags' in prod_bisc['products'][0]
     True
 
-    # >>> 'countries' in prod_bisc['products'][0]
-    # True
-
-    # >>> 'id' in prod_bisc['products'][0]
-    # True
-
     >>> get_category('wrong_file', True)
     File load error : sample-category-wrong_file.json
     False
+
+    # >>> pprint.pprint(prod_bisc)
     """
 
     if from_file:
@@ -134,7 +125,7 @@ def get_category(name, from_file=False):
         # File did not exists
         if path.isfile(filename) is False:
             print("File load error : {}".format(filename))
-            status = False
+            status = 404
             category_json = {'count': 0}
 
         else:
@@ -151,11 +142,19 @@ def get_category(name, from_file=False):
     if category_json['count'] is not 0 and status == 200:
         category_kept = {
             'count': category_json['count'],
-            'products': [{}]
+            'products': []
             }
 
-        for field in FIELD_KEPT:
-            category_kept['products'][0][field] = category_json['products'][0][field]
+        for idx, product_fields in enumerate(category_json['products']):
+            category_kept['products'].append(dict())
+
+            for field in FIELD_KEPT['category']:
+
+                if field in product_fields:
+                    category_kept['products'][idx][field] = product_fields[field]
+
+                else:
+                    category_kept['products'][idx][field] = False
 
         return category_kept
 
@@ -164,7 +163,5 @@ def get_category(name, from_file=False):
 
 
 if __name__ == "__main__":
-    """ Starting doctests """
-
     import doctest
     doctest.testmod()
