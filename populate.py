@@ -34,7 +34,8 @@ def get_product(code):
     e
 
     >>> print(prod_beurre['categories_tags'])
-    ['en:sugary-snacks', 'en:biscuits-and-cakes', 'en:biscuits', 'fr:petits-beurres']
+    ['en:sugary-snacks', 'en:biscuits-and-cakes', \
+'en:biscuits', 'fr:petits-beurres']
 
     >>> print(prod_oreo['code'])
     8410000810004
@@ -46,7 +47,8 @@ def get_product(code):
     e
 
     >>> print(prod_oreo['categories_tags'])
-    ['en:sugary-snacks', 'en:biscuits-and-cakes', 'en:biscuits', 'en:chocolate-biscuits', 'es:sandwich-cookies']
+    ['en:sugary-snacks', 'en:biscuits-and-cakes', 'en:biscuits', \
+'en:chocolate-biscuits', 'es:sandwich-cookies']
 
     >>> prod_false is False
     True
@@ -99,6 +101,9 @@ def get_category(name, from_file=False):
 
     :Tests OFFLINE:
     >>> prod_bisc = get_category('biscuits', True)
+    >>> prod_bisc['category'] == 'biscuits'
+    True
+
     >>> 'count' in prod_bisc
     True
 
@@ -142,6 +147,7 @@ def get_category(name, from_file=False):
     if category_json['count'] is not 0 and status == 200:
         category_kept = {
             'count': category_json['count'],
+            'category': str(name),
             'products': []
             }
 
@@ -171,7 +177,8 @@ def pick_category(cat_list):
     by langage prefix.
 
     :Tests:
-    >>> pick_category(['en:sugary-snacks', 'en:biscuits-and-cakes', 'en:biscuits'])
+    >>> pick_category(['en:sugary-snacks', 'en:biscuits-and-cakes', \
+'en:biscuits'])
     'biscuits'
     """
     if len(cat_list) > 1:
