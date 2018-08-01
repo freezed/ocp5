@@ -162,6 +162,34 @@ def get_category(name, from_file=False):
         return False
 
 
+def pick_category(cat_list):
+    """
+    Picks only one category to associate the product in the local DB
+
+    One of the shortest tag (without langage prefix) is taken.
+    For improvement it is a good place to adds more work here, like selecting
+    by langage prefix.
+
+    :Tests:
+    >>> pick_category(['en:sugary-snacks', 'en:biscuits-and-cakes', 'en:biscuits'])
+    'biscuits'
+    """
+    if len(cat_list) > 1:
+        # get idx of the shortest tag
+        flip_list = [(len(cat), idx) for idx, cat in enumerate(cat_list)]
+        flip_list.sort()
+
+        shortest_tag_idx = flip_list[0][1]
+
+        return cat_list[shortest_tag_idx].split(":")[1]
+
+    elif len(cat_list) == 1:
+        return cat_list[0].split(":")[1]
+
+    else:
+        return False
+
+
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
