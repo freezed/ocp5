@@ -230,6 +230,86 @@ def pick_category(cat_list):
         return False
 
 
+def sql_generator(staging_data):
+    """
+    Uses `staging_data` to generate SQL INSERT requests.
+
+    :staging_data: dict() created with `get_product()` or `get_category()`
+    :return: list() of SQL requests
+
+    :Tests:
+    >>> bisc = {'count': 4377,'category':'biscuits','products':[\
+{'_id':'8480000141323','categories_tags':['en:sugary-snacks','en:biscuits-and-cakes','en:biscuits'],'nutrition_grades':'d','product_name':'Galletas María Dorada Hacendado','url':'https://fr-en.openfoodfacts.org/product/8480000141323/galletas-maria-dorada-hacendado'},\
+{'_id':'3593551174971','categories_tags':['en:sugary-snacks','en:biscuits-and-cakes','en:biscuits'],'nutrition_grades':'e','product_name':'Les Broyés du Poitou','url':'https://fr-en.openfoodfacts.org/product/3593551174971/les-broyes-du-poitou-les-mousquetaires'}]}
+
+    >>> sql_list_bisc = sql_generator(bisc)
+    >>> sql_list_bisc[0]
+    "INSERT INTO category (`name`) VALUES ('biscuits')"
+
+    >>> sql_list_bisc[1]
+    "INSERT INTO product (`code`, `url`, `name`, `nutrition_grades`, `category_id`) \
+SELECT '8480000141323', 'https://fr-en.openfoodfacts.org/product/8480000141323/galletas-maria-dorada-hacendado', 'Galletas María Dorada Hacendado', 'd', id AS category_id \
+FROM category WHERE name = 'biscuits';"
+
+    >>> sql_list_bisc[2]
+    "INSERT INTO product (`code`, `url`, `name`, `nutrition_grades`, `category_id`) SELECT '3593551174971', 'https://fr-en.openfoodfacts.org/product/3593551174971/les-broyes-du-poitou-les-mousquetaires', 'Les Broyés du Poitou', 'e', id AS category_id FROM category WHERE name = 'biscuits';"
+
+    >>> oreo = {'categories_tags':['en:sugary-snacks','en:biscuits-and-cakes','en:biscuits','en:chocolate-biscuits','es:sandwich-cookies'],'code':'8410000810004','nutrition_grades':'e','product_name':'Biscuit Oreo', 'url':'https://fr.openfoodfacts.org/product/8410000810004/'}
+    >>> sql_list_oreo = sql_generator(oreo)
+    >>> sql_list_oreo[0]
+    "INSERT INTO category (`name`) VALUES ('biscuits')"
+
+    >>> sql_list_oreo[1]
+    "INSERT INTO product (`code`, `url`, `name`, `nutrition_grades`, `category_id`) SELECT '8410000810004', 'https://fr.openfoodfacts.org/product/8410000810004/', 'Biscuit Oreo', 'e', id AS category_id FROM category WHERE name = 'biscuits';"
+    """
+
+    sql_list = []
+    insert_cat = "INSERT INTO category (`name`) VALUES ('{}')"
+    insert_prod = """INSERT INTO product (`code`, `url`, `name`, `nutrition_grades`, `category_id`) \
+SELECT '{code}', '{url}', '{name}', '{nutri}', id AS category_id \
+FROM category \
+WHERE name = '{cat}';"""
+
+    if 'category' in staging_data.keys():
+        used_category = staging_data['category']
+
+        # insert category
+        sql_list.append(insert_cat.format(used_category))
+
+        # insert products
+        for idx, val in enumerate(staging_data['products']):
+            sql_list.append(
+                insert_prod.format(
+                    code=staging_data['products'][idx]['_id'],
+                    url=staging_data['products'][idx]['url'],
+                    name=staging_data['products'][idx]['product_name'],
+                    nutri=staging_data['products'][idx]['nutrition_grades'],
+                    cat=used_category
+                )
+            )
+
+    elif 'product_name' in staging_data.keys():
+        used_category = pick_category(staging_data['categories_tags'])
+
+        # insert category
+        sql_list.append(insert_cat.format(used_category))
+
+        sql_list.append(
+            insert_prod.format(
+                code=staging_data['code'],
+                url=staging_data['url'],
+                name=staging_data['product_name'],
+                nutri=staging_data['nutrition_grades'],
+                cat=used_category
+            )
+        )
+
+    else:
+        sql_list = False
+
+    return sql_list
+
+
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
