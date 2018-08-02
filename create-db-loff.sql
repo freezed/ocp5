@@ -2,7 +2,6 @@
 -- Creates a local DB to avoid requesting API --
 -- ---------------------------------------------
 
-DROP DATABASE IF EXISTS loff;
 CREATE DATABASE loff CHARACTER SET 'utf8';
 USE loff;
 

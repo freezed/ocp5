@@ -19,6 +19,14 @@ DB_CONFIG = {
     'file': 'create-db-loff.sql'
 }
 
+DB_MSG_TEMPLATE = {
+    "database": "DB «{}» contains these tables :",
+    "db_created": "DB «{}» created\n\n",
+    "tables": "{}\n",
+    "dashboard": "DB size : {dbsize}\nTable 'product' has «{rowprod}» "
+                 "row(s)\nTable 'category' has «{rowcat}» row(s)"
+}
+
 # API
 FIELD_KEPT = {
     'product': [
@@ -33,5 +41,4 @@ FIELD_KEPT = {
         'nutrition_grades',
         'categories_tags'
     ]
-
-        }
+}

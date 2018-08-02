@@ -10,40 +10,74 @@ Connects DB, executes SQL statements
 """
 
 import pymysql.cursors
-from config import DB_CONFIG
+from config import DB_CONFIG, DB_MSG_TEMPLATE
 
 
 class Db():
     """
-    Class doc
+    Manage DB class
 
-    :Test:
-    >>> test = Db()
-    >>> print(test.message)
-    DB «loff» contains these tables :['category', 'product']
-    DB size : n.n MB
-    Table 'product' has «n» row(s)
-    Table 'category' has «n» row(s)
+    :Tests:
+    >>> class_test = Db()
+    >>> class_test.message.splitlines()[0]
+    "DB «loff» contains these tables :['category', 'product']"
     """
 
     def __init__(self):
-        """
-        Class initialiser
-        """
-        MSG_TEMPLATE = {
-            "request": "-- REQUEST #{} : --{}",
-            "database": "DB «{}» contains these tables :",
-            "tables": "{}\n",
-            "dashboard": "DB size : {dbsize}\nTable 'product' has «{rowprod}» "
-                         "row(s)\nTable 'category' has «{rowcat}» row(s)"
-        }
-        db_not_found = True
+        """ Class initialiser """
         self.message = ""
         self.result = list()
 
         # MYSQL server connexion, without DB selection
         self.cnx()
 
+        first_summary_run = self.db_summary()
+        # No DB, create it
+        if first_summary_run is False:
+            request_list = self.get_sql_from_file()
+
+            if request_list is not False:
+
+                for sql_request in request_list:
+                    self.cursor.execute(sql_request + ';')
+
+                self.message = DB_MSG_TEMPLATE['db_created'].format(
+                    DB_CONFIG['db']
+                )
+
+                second_summary_run = self.db_summary()
+
+                if second_summary_run is False:
+                    print('DB unknown error')
+
+                else:
+                    self.message += second_summary_run
+
+        else:
+            self.message = first_summary_run
+
+    def cnx(self, with_db=False):
+        """ Connect to MySQL Server """
+        conf = {
+            'host': DB_CONFIG['host'],
+            'user': DB_CONFIG['user'],
+            'password': DB_CONFIG['password'],
+            'charset': DB_CONFIG['charset'],
+            'cursorclass': pymysql.cursors.DictCursor
+        }
+
+        if with_db:
+            conf['db'] = DB_CONFIG['db']
+
+        self.cursor = pymysql.connect(**conf).cursor()
+
+    def db_summary(self):
+        """
+        Search DB, SHOW TABLES, get DB size and count rows in tables
+
+        :return: False if DB not found, nothing otherwise (but sets messages)
+        """
+        db_not_found = True
         self.cursor.execute("SHOW DATABASES")
         db_list = self.cursor.fetchall()
 
@@ -51,7 +85,6 @@ class Db():
 
             if DB_CONFIG['db'] in db_list[idx].values():
                 db_not_found = False
-
                 self.cursor.execute("USE {}".format(DB_CONFIG['db']))
 
                 self.cursor.execute("SHOW TABLES")
@@ -82,42 +115,22 @@ class Db():
                 dashboard = self.cursor.fetchall()
 
                 # Constructs DB information message
-                self.message = MSG_TEMPLATE['database'].format(
+                summary = DB_MSG_TEMPLATE['database'].format(
                     dashboard[0]['Full database'])
 
-                self.message += MSG_TEMPLATE['tables'].format(
+                summary += DB_MSG_TEMPLATE['tables'].format(
                     [val['Tables_in_loff'] for val in tbl_list])
 
-                self.message += MSG_TEMPLATE['dashboard'].format(
+                summary += DB_MSG_TEMPLATE['dashboard'].format(
                     dbsize=dashboard[0]['dbsize'].decode("utf-8"),
                     rowprod=dashboard[1]['dbsize'].decode("utf-8"),
                     rowcat=dashboard[2]['dbsize'].decode("utf-8"))
 
-        # No DB, create it
         if db_not_found:
-            request_list = self.get_sql_from_file()
+            return False
 
-            if request_list is not False:
-
-                for idx, sql_request in enumerate(request_list):
-                    self.message = MSG_TEMPLATE['request'].format(
-                        idx, sql_request)
-                    self.cursor.execute(sql_request + ';')
-
-    def cnx(self, with_db=False):
-        """ Connect to DB """
-        conf = {
-            'host': DB_CONFIG['host'],
-            'user': DB_CONFIG['user'],
-            'password': DB_CONFIG['password'],
-            'charset': DB_CONFIG['charset'],
-            'cursorclass': pymysql.cursors.DictCursor
-        }
-
-        if with_db:
-            conf['db'] = DB_CONFIG['db']
-
-        self.cursor = pymysql.connect(**conf).cursor()
+        else:
+            return summary
 
     def get_sql_from_file(self, filename=DB_CONFIG['file']):
         """
