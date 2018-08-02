@@ -13,9 +13,9 @@ This file is part of [ocp5](https://github.com/freezed/ocp5) project
 DB_CONFIG = {
     'host': 'localhost',
     'user': 'loff',
-    'pass': 'loff',
+    'password': 'loff',
     'db': 'loff',
-    'char': 'utf8',
+    'charset': 'utf8',
     'file': 'create-db-loff.sql'
 }
 
