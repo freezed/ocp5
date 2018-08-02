@@ -40,6 +40,9 @@ def get_product(code):
     >>> print(prod_oreo['code'])
     8410000810004
 
+    >>> print(prod_oreo['url'])
+    https://fr.openfoodfacts.org/product/8410000810004/
+
     >>> print(prod_oreo['product_name'])
     Biscuit Oreo
 
@@ -71,7 +74,10 @@ def get_product(code):
         product_json = json.loads(response.text)
 
         if product_json['status'] and response.status_code == 200:
-            product_kept = {'code': code}
+            product_kept = {
+                'code': code,
+                'url': "https://fr.openfoodfacts.org/product/{}/".format(code)
+            }
 
             for field in FIELD_KEPT['product']:
                 product_kept[field] = product_json['product'][field]
