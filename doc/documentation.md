@@ -5,7 +5,7 @@ Documentation
 
 - `python 3.6.4 `
 - `Requests`
-- ~`PyMySQL` or `openfoodfacts-python`~ [`TODO #4`][4]
+- `PyMySQL`
 
 ## Installation
 
@@ -17,17 +17,17 @@ Documentation
 
 1. [OpenFoodFacts data uses more than 170 fields][92]. Here are those we keep localy :
 ```
-code
+code / _id
+url
 product_name
-categories_fr
-nutrition-score-fr_100g
+categories_tags
+nutrition_grades
 ```
-2. Request will only ask for tagged products with `'countries':'france'`
-3. Physical Data Model
+2. Physical Data Model
 
 ![-Physical Data Model-][96]
 
-4. ~Creates local MariaDB/MySQL : `./create-db.py`~ [`TODO #2`][2]
+3. Creates local MariaDB/MySQL : `./populate.py`
 
 ## Use de CLI to get alternate product
 
