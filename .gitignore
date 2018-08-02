@@ -1,6 +1,7 @@
 # Project-specific exclusions
 #############################
 fr.openfoodfacts.org.products.csv
+*.dict
 
 # Github's standard python exclusions
 #####################################
