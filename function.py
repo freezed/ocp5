@@ -34,10 +34,10 @@ def get_product(code, from_file=False):
     >>> prod_beurre = get_product('3017760000109', True)
     >>> prod_oreo = get_product('8410000810004', True)
     >>> prod_false = get_product('1664', True)
-    File load error : sample-product-1664.json
+    File load error : sample/product-1664.json
 
     >>> prod_string = get_product('string', True)
-    File load error : sample-product-string.json
+    File load error : sample/product-string.json
 
     >>> print(prod_beurre['product_name'])
     Le Véritable Petit Beurre
@@ -67,7 +67,7 @@ def get_product(code, from_file=False):
     """
 
     ERR_FILE = "File load error : {}"
-    filename = 'sample-product-{}.json'.format(str(code))
+    filename = 'sample/product-{}.json'.format(str(code))
 
     try:
         int(code)
@@ -150,7 +150,7 @@ def get_category(name, from_file=False):
     True
 
     >>> get_category('wrong_file', True)
-    File load error : sample-category-wrong_file.json
+    File load error : sample/category-wrong_file.json
     False
 
     # >>> pprint.pprint(prod_bisc)
@@ -159,7 +159,7 @@ def get_category(name, from_file=False):
     if from_file:
         from os import path
 
-        filename = 'sample-category-{}.json'.format(str(name))
+        filename = 'sample/category-{}.json'.format(str(name))
         # File did not exists
         if path.isfile(filename) is False:
             print("File load error : {}".format(filename))
