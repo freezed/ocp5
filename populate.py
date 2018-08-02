@@ -16,17 +16,29 @@ import requests
 from config import FIELD_KEPT
 
 
-def get_product(code):
+def get_product(code, from_file=False):
     """
     Call OpenFF API to get data of a single product
 
     :Tests ONLINE:
-    >>> prod_beurre = get_product('3017760000109')
-    >>> prod_oreo = get_product('8410000810004')
-    >>> prod_false = get_product('1664')
-    >>> prod_string = get_product('string')
+    # >>> prod_beurre = get_product('3017760000109')
+    # >>> prod_oreo = get_product('8410000810004')
+
+    # >>> prod_false is False
+    # True
+
+    # >>> prod_string is False
+    # True
 
     :Tests OFFLINE:
+    >>> prod_beurre = get_product('3017760000109', True)
+    >>> prod_oreo = get_product('8410000810004', True)
+    >>> prod_false = get_product('1664', True)
+    File load error : sample-product-1664.json
+
+    >>> prod_string = get_product('string', True)
+    File load error : sample-product-string.json
+
     >>> print(prod_beurre['product_name'])
     Le Véritable Petit Beurre
 
@@ -52,28 +64,43 @@ def get_product(code):
     >>> print(prod_oreo['categories_tags'])
     ['en:sugary-snacks', 'en:biscuits-and-cakes', 'en:biscuits', \
 'en:chocolate-biscuits', 'es:sandwich-cookies']
-
-    >>> prod_false is False
-    True
-
-    >>> prod_string is False
-    True
     """
+
+    ERR_FILE = "File load error : {}"
+    filename = 'sample-product-{}.json'.format(str(code))
 
     try:
         int(code)
 
     except ValueError:  # as except_detail:
         # print("Exception: «{}»".format(except_detail))
-        return False
+        print(ERR_FILE.format(filename))
 
     else:
-        response = requests.get(
-            "https://fr.openfoodfacts.org/api/v0/product/{}.json".format(code)
-        )
-        product_json = json.loads(response.text)
 
-        if product_json['status'] and response.status_code == 200:
+        if from_file:
+            from os import path
+
+            # File did not exists
+            if path.isfile(filename) is False:
+                print(ERR_FILE.format(filename))
+                status = 404
+                product_json = {'status': 0}
+
+            else:
+                with open(filename, "r") as json_file:
+                    product_json = json.loads(json_file.read())
+                    status = 200
+
+        else:
+
+            response = requests.get(
+                "https://fr.openfoodfacts.org/api/v0/product/{}.json".format(code)
+            )
+            product_json = json.loads(response.text)
+            status = response.status_code
+
+        if product_json['status'] and status == 200:
             product_kept = {
                 'code': code,
                 'url': "https://fr.openfoodfacts.org/product/{}/".format(code)

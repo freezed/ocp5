@@ -1,0 +1,973 @@
+{
+  "status": 1,
+  "status_verbose": "product found",
+  "product": {
+    "ingredients_text_with_allergens": "Farine de <span class=\"allergen\">blé</span> 73,5 %, sucre, <span class=\"allergen\">beurre</span> 13,6 %, <span class=\"allergen\">lait</span> écrémé en poudre 1,3 % (équivalent <span class=\"allergen\">lait</span> écrémé 13 %), sel, poudre à lever (carbonate acide de sodium, carbonate acide d'ammonium), correcteur d'acidité (acide citrique), arôme, sucre glace (sucre, amidon de maïs)",
+    "interface_version_created": "20120622",
+    "images": {
+      "1": {
+        "uploaded_t": 1423992885,
+        "uploader": "nissen",
+        "sizes": {
+          "100": {
+            "w": 75,
+            "h": 100
+          },
+          "400": {
+            "h": 400,
+            "w": 300
+          },
+          "full": {
+            "h": 3264,
+            "w": 2448
+          }
+        }
+      },
+      "2": {
+        "uploaded_t": 1423992900,
+        "uploader": "nissen",
+        "sizes": {
+          "100": {
+            "w": 75,
+            "h": 100
+          },
+          "400": {
+            "h": 400,
+            "w": 300
+          },
+          "full": {
+            "w": 2448,
+            "h": 3264
+          }
+        }
+      },
+      "3": {
+        "sizes": {
+          "100": {
+            "w": 75,
+            "h": 100
+          },
+          "400": {
+            "w": 300,
+            "h": 400
+          },
+          "full": {
+            "w": 2448,
+            "h": 3264
+          }
+        },
+        "uploader": "nissen",
+        "uploaded_t": 1423992913
+      },
+      "4": {
+        "uploaded_t": "1452804800",
+        "uploader": "openfoodfacts-contributors",
+        "sizes": {
+          "100": {
+            "h": 100,
+            "w": 75
+          },
+          "400": {
+            "h": 400,
+            "w": 300
+          },
+          "full": {
+            "h": 3264,
+            "w": 2448
+          }
+        }
+      },
+      "ingredients": {
+        "normalize": null,
+        "sizes": {
+          "100": {
+            "h": 75,
+            "w": 100
+          },
+          "200": {
+            "h": 150,
+            "w": 200
+          },
+          "400": {
+            "h": 300,
+            "w": 400
+          },
+          "full": {
+            "h": 2448,
+            "w": 3264
+          }
+        },
+        "imgid": "3",
+        "white_magic": null,
+        "geometry": "0x0-0-0",
+        "rev": "10"
+      },
+      "nutrition": {
+        "rev": "11",
+        "geometry": "0x0-0-0",
+        "sizes": {
+          "100": {
+            "h": 75,
+            "w": 100
+          },
+          "200": {
+            "w": 200,
+            "h": 150
+          },
+          "400": {
+            "h": 300,
+            "w": 400
+          },
+          "full": {
+            "w": 3264,
+            "h": 2448
+          }
+        },
+        "imgid": "2",
+        "white_magic": null,
+        "normalize": null
+      },
+      "nutrition_fr": {
+        "x1": "0.4210205078125",
+        "normalize": "false",
+        "x2": "400",
+        "y2": "215.24267578125",
+        "y1": "51.8046875",
+        "geometry": "3261x1334-3-422",
+        "angle": "270",
+        "imgid": "2",
+        "sizes": {
+          "100": {
+            "w": 100,
+            "h": 41
+          },
+          "200": {
+            "h": 82,
+            "w": 200
+          },
+          "400": {
+            "w": 400,
+            "h": 164
+          },
+          "full": {
+            "h": 1334,
+            "w": 3261
+          }
+        },
+        "rev": "23",
+        "white_magic": "false"
+      },
+      "ingredients_fr": {
+        "normalize": "false",
+        "x1": "0",
+        "imgid": "3",
+        "sizes": {
+          "100": {
+            "h": 9,
+            "w": 100
+          },
+          "200": {
+            "h": 19,
+            "w": 200
+          },
+          "400": {
+            "w": 400,
+            "h": 38
+          },
+          "full": {
+            "h": 301,
+            "w": 3184
+          }
+        },
+        "y2": "125.1796875",
+        "y1": "88.3046875",
+        "x2": "390.218994140625",
+        "geometry": "3184x301-0-720",
+        "angle": "270",
+        "white_magic": "false",
+        "rev": "22"
+      },
+      "front_fr": {
+        "rev": "13",
+        "geometry": "3264x1264-0-612",
+        "imgid": "1",
+        "white_magic": null,
+        "sizes": {
+          "100": {
+            "w": 100,
+            "h": 39
+          },
+          "200": {
+            "w": 200,
+            "h": 77
+          },
+          "400": {
+            "h": 155,
+            "w": 400
+          },
+          "full": {
+            "w": 3264,
+            "h": 1264
+          }
+        },
+        "normalize": null
+      },
+      "front": {
+        "rev": "13",
+        "geometry": "3264x1264-0-612",
+        "imgid": "1",
+        "white_magic": null,
+        "sizes": {
+          "100": {
+            "w": 100,
+            "h": 39
+          },
+          "200": {
+            "w": 200,
+            "h": 77
+          },
+          "400": {
+            "h": 155,
+            "w": 400
+          },
+          "full": {
+            "w": 3264,
+            "h": 1264
+          }
+        },
+        "normalize": null
+      }
+    },
+    "additives_original_tags": [
+      "en:e500ii",
+      "en:e503ii",
+      "en:e330"
+    ],
+    "categories": "Snacks sucrés,Biscuits et gâteaux,Biscuits,Petits beurres",
+    "languages_hierarchy": [
+      "en:french"
+    ],
+    "image_nutrition_url": "https://static.openfoodfacts.org/images/products/301/776/000/0109/nutrition_fr.23.400.jpg",
+    "additives": " [ farine-de-ble-73 -> fr:farine-de-ble-73  ]  [ farine-de-ble -> fr:farine-de-ble  ]  [ farine-de -> fr:farine-de  ]  [ farine -> fr:farine  ]  [ 5 -> en:fd-c  ]  [ sucre -> fr:sucre  ]  [ beurre-13 -> fr:beurre-13  ]  [ beurre -> fr:beurre  ]  [ 6 -> en:fd-c  ]  [ lait-ecreme-en-poudre-1 -> fr:lait-ecreme-en-poudre-1  ]  [ lait-ecreme-en-poudre -> fr:lait-ecreme-en-poudre  ]  [ lait-ecreme-en -> fr:lait-ecreme-en  ]  [ lait-ecreme -> fr:lait-ecreme  ]  [ lait -> fr:lait  ]  [ 3 -> en:fd-c  ]  [ equivalent-lait-ecreme-13 -> fr:equivalent-lait-ecreme-13  ]  [ equivalent-lait-ecreme -> fr:equivalent-lait-ecreme  ]  [ equivalent-lait -> fr:equivalent-lait  ]  [ equivalent -> fr:equivalent  ]  [ sel -> fr:sel  ]  [ poudre-a-lever -> fr:poudre-a-lever  ]  [ poudre-a -> fr:poudre-a  ]  [ poudre -> fr:poudre  ]  [ carbonate-acide-de-sodium -> en:e500ii  -> exists  -- ok  ]  [ carbonate-acide-d-ammonium -> en:e503ii  -> exists  -- ok  ]  [ correcteur-d-acidite -> fr:correcteur-d-acidite  ]  [ correcteur-d -> fr:correcteur-d  ]  [ correcteur -> fr:correcteur  ]  [ acide-citrique -> en:e330  -> exists  -- ok  ]  [ arome -> fr:arome  ]  [ sucre-glace -> fr:sucre-glace  ]  [ sucre -> fr:sucre  ]  [ sucre -> fr:sucre  ]  [ amidon-de-mais -> fr:amidon-de-mais  ]  [ amidon-de -> fr:amidon-de  ]  [ amidon -> fr:amidon  ] ",
+    "categories_hierarchy": [
+      "en:sugary-snacks",
+      "en:biscuits-and-cakes",
+      "en:biscuits",
+      "fr:petits-beurres"
+    ],
+    "nova_groups_tags": [
+      "en:4-ultra-processed-food-and-drink-products"
+    ],
+    "additives_n": 3,
+    "update_key": "nova1",
+    "nutrition_data_per": "100g",
+    "link": "",
+    "image_ingredients_small_url": "https://static.openfoodfacts.org/images/products/301/776/000/0109/ingredients_fr.22.200.jpg",
+    "image_front_url": "https://static.openfoodfacts.org/images/products/301/776/000/0109/front_fr.13.400.jpg",
+    "states_tags": [
+      "en:to-be-checked",
+      "en:complete",
+      "en:nutrition-facts-completed",
+      "en:ingredients-completed",
+      "en:expiration-date-completed",
+      "en:packaging-code-to-be-completed",
+      "en:characteristics-completed",
+      "en:categories-completed",
+      "en:brands-completed",
+      "en:packaging-completed",
+      "en:quantity-completed",
+      "en:product-name-completed",
+      "en:photos-validated",
+      "en:photos-uploaded"
+    ],
+    "manufacturing_places_debug_tags": [],
+    "brands_debug_tags": [],
+    "stores_tags": [
+      "super-u"
+    ],
+    "labels_tags": [
+      "en:green-dot"
+    ],
+    "categories_prev_tags": [
+      "en:sugary-snacks",
+      "en:biscuits-and-cakes",
+      "en:biscuits",
+      "fr:petits-beurres"
+    ],
+    "last_editor": "beniben",
+    "generic_name_fr": "Petits beurre",
+    "additives_prev_n": 3,
+    "traces": "Œufs,Fruits à coque,Graines de sésame",
+    "purchase_places": "Eure-et-Loir,France,Nantes",
+    "ingredients_n": "15",
+    "ingredients_hierarchy": [
+      "en:wheat-flour",
+      "en:sugar",
+      "en:butter",
+      "fr:lait-ecreme-en-poudre",
+      "en:milk",
+      "fr:équivalent _lait_ écrémé",
+      "en:salt",
+      "en:raising-agent",
+      "en:acidity-regulator",
+      "en:citric-acid",
+      "en:flavourings",
+      "en:icing-sugar",
+      "en:sugar",
+      "fr:carbonate-acide-de-sodium",
+      "fr:carbonate-acide-d-ammonium",
+      "en:sugar",
+      "fr:amidon-de-mais",
+      "en:starch"
+    ],
+    "emb_codes_20141016": "",
+    "countries_hierarchy": [
+      "en:belgium",
+      "en:france",
+      "en:switzerland"
+    ],
+    "editors_tags": [
+      "date-limite-app",
+      "openfoodfacts-contributors",
+      "nissen",
+      "beniben",
+      "tacite-mass-editor",
+      "manu1400",
+      "sebleouf",
+      "scanbot"
+    ],
+    "labels_prev_hierarchy": [
+      "en:green-dot"
+    ],
+    "nutrition_grades_tags": [
+      "e"
+    ],
+    "id": "3017760000109",
+    "checkers": [],
+    "_keywords": [
+      "lu",
+      "le",
+      "veritable",
+      "et",
+      "biscuit",
+      "beurre",
+      "petit",
+      "gateaux",
+      "snack",
+      "sucre",
+      "point",
+      "vert"
+    ],
+    "nucleotides_prev_tags": [],
+    "nova_group_debug": " -- ingredients/en:butter : 3 -- categories/en:sugary-snacks : 4",
+    "last_edit_dates_tags": [
+      "2018-04-10",
+      "2018-04",
+      "2018"
+    ],
+    "minerals_tags": [],
+    "allergens": "blé, beurre, lait, lait",
+    "amino_acids_tags": [],
+    "emb_codes_tags": [],
+    "languages_codes": {
+      "fr": 6
+    },
+    "generic_name": "Petits beurre",
+    "no_nutrition_data": "",
+    "allergens_tags": [
+      "en:gluten",
+      "en:milk"
+    ],
+    "complete": 1,
+    "traces_hierarchy": [
+      "en:eggs",
+      "en:nuts",
+      "en:sesame-seeds"
+    ],
+    "purchase_places_debug_tags": [],
+    "countries_debug_tags": [],
+    "allergens_hierarchy": [
+      "en:gluten",
+      "en:milk"
+    ],
+    "nutriments": {
+      "sodium_value": "0.5511811023622046",
+      "carbohydrates": "73",
+      "nova-group_100g": "4",
+      "fiber_value": "3",
+      "carbohydrates_100g": "73",
+      "carbohydrates_value": "73",
+      "saturated-fat_value": "7.6",
+      "fat_serving": 0.996,
+      "saturated-fat_100g": 7.6,
+      "proteins_value": "8",
+      "proteins": "8",
+      "sodium": 0.551181102362205,
+      "salt_value": "1.4",
+      "salt_serving": 0.116,
+      "sugars": "23",
+      "nova-group_serving": "4",
+      "fiber": "3",
+      "fiber_serving": 0.249,
+      "nutrition-score-fr_100g": 20,
+      "proteins_unit": "g",
+      "energy_serving": "154",
+      "sugars_unit": "g",
+      "sodium_unit": "g",
+      "nutrition-score-uk_100g": 20,
+      "energy_value": "1850",
+      "nova-group": "4",
+      "carbohydrates_unit": "g",
+      "nutrition-score-uk": 20,
+      "energy_unit": "kJ",
+      "saturated-fat_serving": 0.631,
+      "saturated-fat": 7.6,
+      "fiber_unit": "g",
+      "salt_unit": "g",
+      "proteins_100g": "8",
+      "salt": 1.4,
+      "sugars_100g": "23",
+      "saturated-fat_unit": "g",
+      "salt_100g": 1.4,
+      "fat_unit": "g",
+      "fat_value": "12",
+      "sugars_value": "23",
+      "carbohydrates_serving": 6.06,
+      "proteins_serving": 0.664,
+      "fat": "12",
+      "sodium_100g": 0.551181102362205,
+      "sodium_serving": 0.0457,
+      "nutrition-score-fr": 20,
+      "energy_100g": "1850",
+      "fat_100g": "12",
+      "energy": "1850",
+      "fiber_100g": "3",
+      "sugars_serving": 1.91
+    },
+    "labels": "Point Vert",
+    "scans_n": 303,
+    "ingredients_ids_debug": [
+      "farine-de-ble-73",
+      "5",
+      "sucre",
+      "beurre-13",
+      "6",
+      "lait-ecreme-en-poudre-1",
+      "3",
+      "equivalent-lait-ecreme-13",
+      "sel",
+      "poudre-a-lever",
+      "carbonate-acide-de-sodium",
+      "carbonate-acide-d-ammonium",
+      "correcteur-d-acidite",
+      "acide-citrique",
+      "arome",
+      "sucre-glace",
+      "sucre",
+      "amidon-de-mais"
+    ],
+    "vitamins_prev_tags": [],
+    "packaging": "Carton,Plastique",
+    "serving_size_debug_tags": [],
+    "creator": "manu1400",
+    "correctors_tags": [
+      "manu1400",
+      "nissen",
+      "sebleouf",
+      "date-limite-app",
+      "scanbot",
+      "tacite-mass-editor",
+      "beniben"
+    ],
+    "debug_tags": [
+      "43"
+    ],
+    "last_modified_by": "beniben",
+    "categories_tags": [
+      "en:sugary-snacks",
+      "en:biscuits-and-cakes",
+      "en:biscuits",
+      "fr:petits-beurres"
+    ],
+    "stores": "Super U",
+    "ingredients": [
+      {
+        "id": "en:wheat-flour",
+        "text": "Farine de _blé_",
+        "percent": "73.5",
+        "rank": 1
+      },
+      {
+        "id": "en:sugar",
+        "rank": 2,
+        "text": "sucre"
+      },
+      {
+        "rank": 3,
+        "percent": "13.6",
+        "text": "_beurre_",
+        "id": "en:butter"
+      },
+      {
+        "percent": "1.3",
+        "text": "_lait_ écrémé en poudre",
+        "rank": 4,
+        "id": "fr:lait-ecreme-en-poudre"
+      },
+      {
+        "id": "fr:équivalent _lait_ écrémé",
+        "text": "équivalent _lait_ écrémé",
+        "percent": "13",
+        "rank": 5
+      },
+      {
+        "text": "sel",
+        "rank": 6,
+        "id": "en:salt"
+      },
+      {
+        "text": "poudre à lever",
+        "rank": 7,
+        "id": "en:raising-agent"
+      },
+      {
+        "id": "en:acidity-regulator",
+        "text": "correcteur d'acidité",
+        "rank": 8
+      },
+      {
+        "id": "en:citric-acid",
+        "rank": 9,
+        "text": "acide citrique"
+      },
+      {
+        "text": "arôme",
+        "rank": 10,
+        "id": "en:flavourings"
+      },
+      {
+        "text": "sucre glace",
+        "rank": 11,
+        "id": "en:icing-sugar"
+      },
+      {
+        "id": "fr:carbonate-acide-de-sodium",
+        "text": "carbonate acide de sodium"
+      },
+      {
+        "id": "fr:carbonate-acide-d-ammonium",
+        "text": "carbonate acide d'ammonium"
+      },
+      {
+        "id": "en:sugar",
+        "text": "sucre"
+      },
+      {
+        "id": "fr:amidon-de-mais",
+        "text": "amidon de maïs"
+      }
+    ],
+    "minerals_prev_tags": [],
+    "emb_codes_orig": "",
+    "additives_old_n": 3,
+    "traces_debug_tags": [],
+    "serving_quantity": 8.3,
+    "nutrient_levels_tags": [
+      "en:fat-in-moderate-quantity",
+      "en:saturated-fat-in-high-quantity",
+      "en:sugars-in-high-quantity",
+      "en:salt-in-moderate-quantity"
+    ],
+    "amino_acids_prev_tags": [],
+    "countries_beforescanbot": "France",
+    "ingredients_tags": [
+      "en:wheat-flour",
+      "en:sugar",
+      "en:butter",
+      "fr:lait-ecreme-en-poudre",
+      "en:milk",
+      "fr:equivalent-lait-ecreme",
+      "en:salt",
+      "en:raising-agent",
+      "en:acidity-regulator",
+      "en:citric-acid",
+      "en:flavourings",
+      "en:icing-sugar",
+      "en:sugar",
+      "fr:carbonate-acide-de-sodium",
+      "fr:carbonate-acide-d-ammonium",
+      "en:sugar",
+      "fr:amidon-de-mais",
+      "en:starch"
+    ],
+    "image_front_thumb_url": "https://static.openfoodfacts.org/images/products/301/776/000/0109/front_fr.13.100.jpg",
+    "quantity_debug_tags": [],
+    "nutrition_grades": "e",
+    "emb_codes_debug_tags": [],
+    "additives_debug_tags": [
+      "en-e500ii-added",
+      "en-e503ii-added"
+    ],
+    "additives_tags": [
+      "en:e330",
+      "en:e500",
+      "en:e500ii",
+      "en:e503",
+      "en:e503ii"
+    ],
+    "image_nutrition_small_url": "https://static.openfoodfacts.org/images/products/301/776/000/0109/nutrition_fr.23.200.jpg",
+    "code": "3017760000109",
+    "image_nutrition_thumb_url": "https://static.openfoodfacts.org/images/products/301/776/000/0109/nutrition_fr.23.100.jpg",
+    "informers": [
+      "manu1400"
+    ],
+    "photographers": [],
+    "checkers_tags": [],
+    "ingredients_debug": [
+      "Farine de _blé_ 73",
+      ",",
+      null,
+      null,
+      "5 %",
+      ",",
+      null,
+      null,
+      " sucre",
+      ",",
+      null,
+      null,
+      " _beurre_ 13",
+      ",",
+      null,
+      null,
+      "6 %",
+      ",",
+      null,
+      null,
+      " _lait_ écrémé en poudre 1",
+      ",",
+      null,
+      null,
+      "3 % ",
+      "(",
+      null,
+      null,
+      "équivalent _lait_ écrémé 13 %)",
+      ",",
+      null,
+      null,
+      " sel",
+      ",",
+      null,
+      null,
+      " poudre à lever ",
+      ":",
+      null,
+      null,
+      " ",
+      "(",
+      null,
+      null,
+      "carbonate acide de sodium",
+      ",",
+      null,
+      null,
+      " carbonate acide d'ammonium)",
+      ",",
+      null,
+      null,
+      " correcteur d'acidité ",
+      ":",
+      null,
+      null,
+      " ",
+      "(",
+      null,
+      null,
+      "acide citrique)",
+      ",",
+      null,
+      null,
+      " arôme",
+      ",",
+      null,
+      null,
+      " sucre glace ",
+      "(",
+      null,
+      null,
+      "sucre",
+      ",",
+      null,
+      null,
+      " amidon de maïs)"
+    ],
+    "quantity": "200 g e",
+    "image_small_url": "https://static.openfoodfacts.org/images/products/301/776/000/0109/front_fr.13.200.jpg",
+    "languages": {
+      "en:french": 6
+    },
+    "emb_codes": "",
+    "countries_tags": [
+      "en:belgium",
+      "en:france",
+      "en:switzerland"
+    ],
+    "nutrition_data_prepared_per": "100g",
+    "origins_tags": [],
+    "stores_debug_tags": [],
+    "unknown_ingredients_n": 1,
+    "cities_tags": [],
+    "pnns_groups_2": "Biscuits and cakes",
+    "image_thumb_url": "https://static.openfoodfacts.org/images/products/301/776/000/0109/front_fr.13.100.jpg",
+    "origins": "",
+    "labels_prev_tags": [
+      "en:green-dot"
+    ],
+    "traces_tags": [
+      "en:eggs",
+      "en:nuts",
+      "en:sesame-seeds"
+    ],
+    "fruits-vegetables-nuts_100g_estimate": 0,
+    "rev": 24,
+    "correctors": [
+      "manu1400"
+    ],
+    "manufacturing_places_tags": [],
+    "misc_tags": [
+      "en:nutrition-no-fruits-vegetables-nuts",
+      "en:nutrition-no-fiber-or-fruits-vegetables-nuts",
+      "en:nutriscore-computed"
+    ],
+    "ingredients_from_palm_oil_n": 0,
+    "last_image_t": 1457686800,
+    "manufacturing_places": "",
+    "photographers_tags": [
+      "nissen",
+      "openfoodfacts-contributors"
+    ],
+    "additives_prev": " [ farine-de-ble-73 -> fr:farine-de-ble-73  ]  [ farine-de-ble -> fr:farine-de-ble  ]  [ farine-de -> fr:farine-de  ]  [ farine -> fr:farine  ]  [ 5 -> en:fd-c  ]  [ sucre -> fr:sucre  ]  [ beurre-13 -> fr:beurre-13  ]  [ beurre -> fr:beurre  ]  [ 6 -> en:fd-c  ]  [ lait-ecreme-en-poudre-1 -> fr:lait-ecreme-en-poudre-1  ]  [ lait-ecreme-en-poudre -> fr:lait-ecreme-en-poudre  ]  [ lait-ecreme-en -> fr:lait-ecreme-en  ]  [ lait-ecreme -> fr:lait-ecreme  ]  [ lait -> fr:lait  ]  [ 3 -> en:fd-c  ]  [ equivalent-lait-ecreme-13 -> fr:equivalent-lait-ecreme-13  ]  [ equivalent-lait-ecreme -> fr:equivalent-lait-ecreme  ]  [ equivalent-lait -> fr:equivalent-lait  ]  [ equivalent -> fr:equivalent  ]  [ sel -> fr:sel  ]  [ poudre-a-lever -> fr:poudre-a-lever  ]  [ poudre-a -> fr:poudre-a  ]  [ poudre -> fr:poudre  ]  [ carbonate-acide-de-sodium -> en:e500  -> exists  -- ok  ]  [ carbonate-acide-d-ammonium -> en:e503  -> exists  -- ok  ]  [ correcteur-d-acidite -> fr:correcteur-d-acidite  ]  [ correcteur-d -> fr:correcteur-d  ]  [ correcteur -> fr:correcteur  ]  [ acide-citrique -> en:e330  -> exists  -- ok  ]  [ arome -> fr:arome  ]  [ sucre-glace -> fr:sucre-glace  ]  [ sucre -> fr:sucre  ]  [ sucre -> fr:sucre  ]  [ amidon-de-mais -> fr:amidon-de-mais  ]  [ amidon-de -> fr:amidon-de  ]  [ amidon -> fr:amidon  ] ",
+    "languages_tags": [
+      "en:french",
+      "en:1"
+    ],
+    "product_name_fr": "Le Véritable Petit Beurre",
+    "ingredients_original_tags": [
+      "en:wheat-flour",
+      "en:sugar",
+      "en:butter",
+      "fr:lait-ecreme-en-poudre",
+      "fr:équivalent _lait_ écrémé",
+      "en:salt",
+      "en:raising-agent",
+      "en:acidity-regulator",
+      "en:citric-acid",
+      "en:flavourings",
+      "en:icing-sugar",
+      "fr:carbonate-acide-de-sodium",
+      "fr:carbonate-acide-d-ammonium",
+      "en:sugar",
+      "fr:amidon-de-mais"
+    ],
+    "last_image_dates_tags": [
+      "2016-03-11",
+      "2016-03",
+      "2016"
+    ],
+    "brands_tags": [
+      "lu"
+    ],
+    "link_debug_tags": [],
+    "ingredients_that_may_be_from_palm_oil_n": 0,
+    "selected_images": {
+      "front": {
+        "thumb": {
+          "fr": "https://static.openfoodfacts.org/images/products/301/776/000/0109/front_fr.13.100.jpg"
+        },
+        "small": {
+          "fr": "https://static.openfoodfacts.org/images/products/301/776/000/0109/front_fr.13.200.jpg"
+        },
+        "display": {
+          "fr": "https://static.openfoodfacts.org/images/products/301/776/000/0109/front_fr.13.400.jpg"
+        }
+      },
+      "nutrition": {
+        "thumb": {
+          "fr": "https://static.openfoodfacts.org/images/products/301/776/000/0109/nutrition_fr.23.100.jpg"
+        },
+        "display": {
+          "fr": "https://static.openfoodfacts.org/images/products/301/776/000/0109/nutrition_fr.23.400.jpg"
+        },
+        "small": {
+          "fr": "https://static.openfoodfacts.org/images/products/301/776/000/0109/nutrition_fr.23.200.jpg"
+        }
+      },
+      "ingredients": {
+        "display": {
+          "fr": "https://static.openfoodfacts.org/images/products/301/776/000/0109/ingredients_fr.22.400.jpg"
+        },
+        "small": {
+          "fr": "https://static.openfoodfacts.org/images/products/301/776/000/0109/ingredients_fr.22.200.jpg"
+        },
+        "thumb": {
+          "fr": "https://static.openfoodfacts.org/images/products/301/776/000/0109/ingredients_fr.22.100.jpg"
+        }
+      }
+    },
+    "new_additives_n": 3,
+    "additives_prev_tags": [
+      "en:e330",
+      "en:e500",
+      "en:e503"
+    ],
+    "nutrient_levels": {
+      "sugars": "high",
+      "fat": "moderate",
+      "salt": "moderate",
+      "saturated-fat": "high"
+    },
+    "additives_old_tags": [
+      "en:e500",
+      "en:e503",
+      "en:e330"
+    ],
+    "debug_param_sorted_langs": [
+      "fr"
+    ],
+    "ingredients_text_fr": "Farine de _blé_ 73,5 %, sucre, _beurre_ 13,6 %, _lait_ écrémé en poudre 1,3 % (équivalent _lait_ écrémé 13 %), sel, poudre à lever (carbonate acide de sodium, carbonate acide d'ammonium), correcteur d'acidité (acide citrique), arôme, sucre glace (sucre, amidon de maïs)",
+    "states": "en:to-be-checked, en:complete, en:nutrition-facts-completed, en:ingredients-completed, en:expiration-date-completed, en:packaging-code-to-be-completed, en:characteristics-completed, en:categories-completed, en:brands-completed, en:packaging-completed, en:quantity-completed, en:product-name-completed, en:photos-validated, en:photos-uploaded",
+    "pnns_groups_1": "Sugary snacks",
+    "pnns_groups_1_tags": [
+      "sugary-snacks"
+    ],
+    "nutrition_score_warning_no_fruits_vegetables_nuts": 1,
+    "countries": "Belgique,France,Suisse",
+    "generic_name_fr_debug_tags": [],
+    "ingredients_that_may_be_from_palm_oil_tags": [],
+    "_id": "3017760000109",
+    "last_modified_t": 1523339117,
+    "editors": [
+      "sebleouf",
+      "nissen",
+      "manu1400"
+    ],
+    "completed_t": 1426072606,
+    "codes_tags": [
+      "code-13",
+      "3017760000109",
+      "301776000010x",
+      "30177600001xx",
+      "3017760000xxx",
+      "301776000xxxx",
+      "30177600xxxxx",
+      "3017760xxxxxx",
+      "301776xxxxxxx",
+      "30177xxxxxxxx",
+      "3017xxxxxxxxx",
+      "301xxxxxxxxxx",
+      "30xxxxxxxxxxx",
+      "3xxxxxxxxxxxx"
+    ],
+    "image_ingredients_url": "https://static.openfoodfacts.org/images/products/301/776/000/0109/ingredients_fr.22.400.jpg",
+    "ingredients_from_or_that_may_be_from_palm_oil_n": 0,
+    "image_url": "https://static.openfoodfacts.org/images/products/301/776/000/0109/front_fr.13.400.jpg",
+    "product_name": "Le Véritable Petit Beurre",
+    "unknown_nutrients_tags": [],
+    "expiration_date_debug_tags": [],
+    "labels_debug_tags": [],
+    "lang_debug_tags": [],
+    "ingredients_n_tags": [
+      "15",
+      "11-20"
+    ],
+    "nucleotides_tags": [],
+    "created_t": 1341146799,
+    "sortkey": 1523339117,
+    "categories_debug_tags": [],
+    "packaging_debug_tags": [],
+    "ingredients_text_fr_debug_tags": [],
+    "categories_prev_hierarchy": [
+      "en:sugary-snacks",
+      "en:biscuits-and-cakes",
+      "en:biscuits",
+      "fr:petits-beurres"
+    ],
+    "ingredients_from_palm_oil_tags": [],
+    "entry_dates_tags": [
+      "2012-07-01",
+      "2012-07",
+      "2012"
+    ],
+    "serving_size": "8,3 g",
+    "lang": "fr",
+    "product_name_fr_debug_tags": [],
+    "origins_debug_tags": [],
+    "informers_tags": [
+      "manu1400",
+      "nissen",
+      "sebleouf"
+    ],
+    "states_hierarchy": [
+      "en:to-be-checked",
+      "en:complete",
+      "en:nutrition-facts-completed",
+      "en:ingredients-completed",
+      "en:expiration-date-completed",
+      "en:packaging-code-to-be-completed",
+      "en:characteristics-completed",
+      "en:categories-completed",
+      "en:brands-completed",
+      "en:packaging-completed",
+      "en:quantity-completed",
+      "en:product-name-completed",
+      "en:photos-validated",
+      "en:photos-uploaded"
+    ],
+    "nutrition_data_per_debug_tags": [],
+    "pnns_groups_2_tags": [
+      "biscuits-and-cakes"
+    ],
+    "ingredients_text_with_allergens_fr": "Farine de <span class=\"allergen\">blé</span> 73,5 %, sucre, <span class=\"allergen\">beurre</span> 13,6 %, <span class=\"allergen\">lait</span> écrémé en poudre 1,3 % (équivalent <span class=\"allergen\">lait</span> écrémé 13 %), sel, poudre à lever (carbonate acide de sodium, carbonate acide d'ammonium), correcteur d'acidité (acide citrique), arôme, sucre glace (sucre, amidon de maïs)",
+    "lc": "fr",
+    "additives_prev_original_tags": [
+      "en:e500",
+      "en:e503",
+      "en:e330"
+    ],
+    "nutrition_score_debug": " -- energy 5 + sat-fat 7 + fr-sat-fat-for-fats 9 + sugars 5 + sodium 6 - fruits 0% 0 - fiber 3 - proteins 4 -- fsa 20 -- fr 20",
+    "nutrition_data": "on",
+    "max_imgid": "5",
+    "nova_groups": "4",
+    "labels_hierarchy": [
+      "en:green-dot"
+    ],
+    "ingredients_text_debug": "Farine de _blé_ 73,5 %, sucre, _beurre_ 13,6 %, _lait_ écrémé en poudre 1,3 % (équivalent _lait_ écrémé 13 %), sel, poudre à lever : (carbonate acide de sodium, carbonate acide d'ammonium), correcteur d'acidité : (acide citrique), arôme, sucre glace (sucre, amidon de maïs)",
+    "image_front_small_url": "https://static.openfoodfacts.org/images/products/301/776/000/0109/front_fr.13.200.jpg",
+    "vitamins_tags": [],
+    "nutrition_data_prepared": "",
+    "packaging_tags": [
+      "carton",
+      "plastique"
+    ],
+    "nutrition_grade_fr": "e",
+    "brands": "LU",
+    "expiration_date": "07/2015",
+    "image_ingredients_thumb_url": "https://static.openfoodfacts.org/images/products/301/776/000/0109/ingredients_fr.22.100.jpg",
+    "quality_tags": [
+      "quantity-contains-e",
+      "quantity-not-recognized"
+    ],
+    "purchase_places_tags": [
+      "eure-et-loir",
+      "france",
+      "nantes"
+    ],
+    "ingredients_text": "Farine de _blé_ 73,5 %, sucre, _beurre_ 13,6 %, _lait_ écrémé en poudre 1,3 % (équivalent _lait_ écrémé 13 %), sel, poudre à lever (carbonate acide de sodium, carbonate acide d'ammonium), correcteur d'acidité (acide citrique), arôme, sucre glace (sucre, amidon de maïs)",
+    "unique_scans_n": 265,
+    "nova_group": "4",
+    "nutrition_data_prepared_per_debug_tags": [],
+    "interface_version_modified": "20120622"
+  },
+  "code": "3017760000109"
+}
