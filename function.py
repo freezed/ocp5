@@ -264,11 +264,11 @@ FROM category WHERE name = 'biscuits';"
     """
 
     sql_list = []
-    insert_cat = "INSERT INTO category (`name`) VALUES ('{}')"
+    insert_cat = "INSERT INTO category (`name`) VALUES ('{}');"
     insert_prod = """INSERT INTO product (`code`, `url`, `name`, `nutrition_grades`, `category_id`) \
-SELECT '{code}', '{url}', '{name}', '{nutri}', id AS category_id \
+SELECT "{code}", "{url}", "{name}", "{nutri}", id AS category_id \
 FROM category \
-WHERE name = '{cat}';"""
+WHERE name = "{cat}";"""
 
     if 'category' in staging_data.keys():
         used_category = staging_data['category']
