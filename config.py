@@ -16,6 +16,7 @@ DB_CONFIG = {
     'password': 'loff',
     'db': 'loff',
     'charset': 'utf8',
+    'autocommit': True,
     'file': 'create-db-loff.sql'
 }
 

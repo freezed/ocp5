@@ -128,6 +128,25 @@ class Db():
         else:
             return summary
 
+    def execute(self, sql_request):
+        """
+        Executes a request on DB
+
+        :Tests:
+        >>> Db.start_connexion(Db, with_db=True)
+        >>> Db.execute(Db, 'SHOW TABLES')
+        2
+        >>> Db.result == [{'Tables_in_loff': 'category'}, \
+{'Tables_in_loff': 'product'}]
+        True
+        """
+        # Connect to the database
+        self.start_connexion(self)
+
+        response = self.cursor.execute(sql_request)
+        self.result = self.cursor.fetchall()
+        return response
+
     def get_sql_from_file(self, filename=DB_CONFIG['file']):
         """
         Get the SQL instruction from a file
@@ -177,6 +196,7 @@ to database 'foobar'")»
             'user': DB_CONFIG['user'],
             'password': DB_CONFIG['password'],
             'charset': DB_CONFIG['charset'],
+            'autocommit': DB_CONFIG['autocommit'],
             'cursorclass': pymysql.cursors.DictCursor
         }
 
