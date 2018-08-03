@@ -18,9 +18,12 @@ class Db():
     Manage DB class
 
     :Tests:
+    >>> expect = ["DB «loff» contains these tables :['category', 'product']",\
+"DB «loff» created"]
+
     >>> class_test = Db()
-    >>> class_test.message.splitlines()[0]
-    "DB «loff» contains these tables :['category', 'product']"
+    >>> class_test.message.splitlines()[0] in expect
+    True
     """
 
     def __init__(self):
@@ -29,7 +32,7 @@ class Db():
         self.result = list()
 
         # MYSQL server connexion, without DB selection
-        self.cnx()
+        self.start_connexion(False)
 
         first_summary_run = self.db_summary()
         # No DB, create it
@@ -56,26 +59,19 @@ class Db():
         else:
             self.message = first_summary_run
 
-    def cnx(self, with_db=False):
-        """ Connect to MySQL Server """
-        conf = {
-            'host': DB_CONFIG['host'],
-            'user': DB_CONFIG['user'],
-            'password': DB_CONFIG['password'],
-            'charset': DB_CONFIG['charset'],
-            'cursorclass': pymysql.cursors.DictCursor
-        }
-
-        if with_db:
-            conf['db'] = DB_CONFIG['db']
-
-        self.cursor = pymysql.connect(**conf).cursor()
-
     def db_summary(self):
         """
         Search DB, SHOW TABLES, get DB size and count rows in tables
 
         :return: False if DB not found, nothing otherwise (but sets messages)
+
+        :Tests:
+        >>> expect = ["DB «loff» contains these tables \
+:['category', 'product']","DB «loff» created"]
+
+        >>> Db.start_connexion(Db, with_db=False)
+        >>> Db.db_summary(Db).splitlines()[0] in expect
+        True
         """
         db_not_found = True
         self.cursor.execute("SHOW DATABASES")
@@ -159,9 +155,46 @@ class Db():
                 ret.pop()
                 return ret
 
+    def start_connexion(self, with_db=True):
+        """
+        Connect to MySQL Server
+
+        :Tests:
+        >>> DB_CONFIG['user'] = 'bob'
+        >>> Db.start_connexion(Db, with_db=True)
+        OperationalError: «(1045, "Access denied for user 'bob'@'localhost' \
+(using password: YES)")»
+
+        >>> DB_CONFIG['user'] = 'loff'
+        >>> DB_CONFIG['db'] = 'foobar'
+        >>> Db.start_connexion(Db, with_db=True)
+        OperationalError: «(1044, "Access denied for user 'loff'@'localhost' \
+to database 'foobar'")»
+
+        """
+        cnx_conf = {
+            'host': DB_CONFIG['host'],
+            'user': DB_CONFIG['user'],
+            'password': DB_CONFIG['password'],
+            'charset': DB_CONFIG['charset'],
+            'cursorclass': pymysql.cursors.DictCursor
+        }
+
+        if with_db:
+            cnx_conf['db'] = DB_CONFIG['db']
+
+        try:
+            self.cnx = pymysql.connect(**cnx_conf)
+            self.cursor = self.cnx.cursor()
+
+        # For "Access denied" errors
+        except pymysql.err.OperationalError as except_detail:
+            print("OperationalError: «{}»".format(except_detail))
+
     def __del__(self):
         """ Object destruction"""
         self.cursor.close()
+        self.cnx.close()
 
 
 if __name__ == "__main__":
