@@ -9,6 +9,22 @@ Licence: `GNU GPL v3` GNU GPL v3: http://www.gnu.org/licenses/
 This file is part of [ocp5](https://github.com/freezed/ocp5) project
 """
 
+# API
+FIELD_KEPT = {
+    'product': [
+        'product_name',
+        'nutrition_grades',
+        'categories_tags'
+    ],
+    'category': [
+        '_id',
+        'url',
+        'product_name',
+        'nutrition_grades',
+        'categories_tags'
+    ]
+}
+
 # DATABASE
 DB_CONFIG = {
     'host': 'localhost',
@@ -26,20 +42,4 @@ DB_MSG_TEMPLATE = {
     "tables": "{}\n",
     "dashboard": "DB size : {dbsize}\nTable 'product' has «{rowprod}» "
                  "row(s)\nTable 'category' has «{rowcat}» row(s)"
-}
-
-# API
-FIELD_KEPT = {
-    'product': [
-        'product_name',
-        'nutrition_grades',
-        'categories_tags'
-    ],
-    'category': [
-        '_id',
-        'url',
-        'product_name',
-        'nutrition_grades',
-        'categories_tags'
-    ]
 }

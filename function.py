@@ -201,6 +201,17 @@ def get_category(name, from_file=False):
         return False
 
 
+def false_to_null(sql_list):
+    """ Replacing nutrition_score="False" by nutrition_score=NULL """
+    for idx, request in enumerate(sql_list):
+        if "False" in request:
+            sql_list[idx] = "{}NULL{}".format(
+                request[:request.find('False')-1],
+                request[request.find('False')+6:]
+            )
+    return sql_list
+
+
 def pick_category(cat_list):
     """
     Picks only one category to associate the product in the local DB
@@ -238,35 +249,37 @@ def sql_generator(staging_data):
     :return: list() of SQL requests
 
     :Tests:
-    >>> bisc = {'count': 4377,'category':'biscuits','products':[\
-{'_id':'8480000141323','categories_tags':['en:sugary-snacks','en:biscuits-and-cakes','en:biscuits'],'nutrition_grades':'d','product_name':'Galletas María Dorada Hacendado','url':'https://fr-en.openfoodfacts.org/product/8480000141323/galletas-maria-dorada-hacendado'},\
-{'_id':'3593551174971','categories_tags':['en:sugary-snacks','en:biscuits-and-cakes','en:biscuits'],'nutrition_grades':'e','product_name':'Les Broyés du Poitou','url':'https://fr-en.openfoodfacts.org/product/3593551174971/les-broyes-du-poitou-les-mousquetaires'}]}
+    >>> bisc = {'count': 4377,'category':'biscuits','products':[{'_id':'8480000141323','categories_tags':['en:sugary-snacks','en:biscuits-and-cakes','en:biscuits'],'nutrition_grades':'e','product_name':'Galletas María Dorada Hacendado','url':'https://fr-en.openfoodfacts.org/product/8480000141323/galletas-maria-dorada-hacendado'},{'_id':'3593551174971','categories_tags':['en:sugary-snacks','en:biscuits-and-cakes','en:biscuits'],'nutrition_grades':'False','product_name':'Les Broyés du Poitou','url':'https://fr-en.openfoodfacts.org/product/3593551174971/les-broyes-du-poitou-les-mousquetaires'}]}
 
     >>> sql_list_bisc = sql_generator(bisc)
     >>> sql_list_bisc[0]
-    "INSERT INTO category (`name`) VALUES ('biscuits')"
+    "INSERT INTO category (`name`) VALUES ('biscuits');"
 
     >>> sql_list_bisc[1]
-    "INSERT INTO product (`code`, `url`, `name`, `nutrition_grades`, `category_id`) \
-SELECT '8480000141323', 'https://fr-en.openfoodfacts.org/product/8480000141323/galletas-maria-dorada-hacendado', 'Galletas María Dorada Hacendado', 'd', id AS category_id \
-FROM category WHERE name = 'biscuits';"
+    'INSERT INTO product (`name`, `code`, `url`, `nutrition_grades`, `category_id`) SELECT "Galletas María Dorada Hacendado", "8480000141323", "https://fr-en.openfoodfacts.org/product/8480000141323/galletas-maria-dorada-hacendado", "e", id AS category_id FROM category WHERE name = "biscuits";'
 
     >>> sql_list_bisc[2]
-    "INSERT INTO product (`code`, `url`, `name`, `nutrition_grades`, `category_id`) SELECT '3593551174971', 'https://fr-en.openfoodfacts.org/product/3593551174971/les-broyes-du-poitou-les-mousquetaires', 'Les Broyés du Poitou', 'e', id AS category_id FROM category WHERE name = 'biscuits';"
+    'INSERT INTO product (`name`, `code`, `url`, `nutrition_grades`, `category_id`) SELECT "Les Broyés du Poitou", "3593551174971", "https://fr-en.openfoodfacts.org/product/3593551174971/les-broyes-du-poitou-les-mousquetaires", NULL, id AS category_id FROM category WHERE name = "biscuits";'
 
     >>> oreo = {'categories_tags':['en:sugary-snacks','en:biscuits-and-cakes','en:biscuits','en:chocolate-biscuits','es:sandwich-cookies'],'code':'8410000810004','nutrition_grades':'e','product_name':'Biscuit Oreo', 'url':'https://fr.openfoodfacts.org/product/8410000810004/'}
     >>> sql_list_oreo = sql_generator(oreo)
     >>> sql_list_oreo[0]
-    "INSERT INTO category (`name`) VALUES ('biscuits')"
+    "INSERT INTO category (`name`) VALUES ('biscuits');"
 
     >>> sql_list_oreo[1]
-    "INSERT INTO product (`code`, `url`, `name`, `nutrition_grades`, `category_id`) SELECT '8410000810004', 'https://fr.openfoodfacts.org/product/8410000810004/', 'Biscuit Oreo', 'e', id AS category_id FROM category WHERE name = 'biscuits';"
+    'INSERT INTO product (`name`, `code`, `url`, `nutrition_grades`, `category_id`) SELECT "Biscuit Oreo", "8410000810004", "https://fr.openfoodfacts.org/product/8410000810004/", "e", id AS category_id FROM category WHERE name = "biscuits";'
+
+    >>> oreo_nutri_null = {'categories_tags':['en:sugary-snacks','en:biscuits-and-cakes','en:biscuits','en:chocolate-biscuits','es:sandwich-cookies'],'code':'8410000810004','nutrition_grades':'False','product_name':'Biscuit Oreo', 'url':'https://fr.openfoodfacts.org/product/8410000810004/'}
+    >>> sql_list_oreo_nutri_null = sql_generator(oreo_nutri_null)
+
+    >>> sql_list_oreo_nutri_null[1]
+    'INSERT INTO product (`name`, `code`, `url`, `nutrition_grades`, `category_id`) SELECT "Biscuit Oreo", "8410000810004", "https://fr.openfoodfacts.org/product/8410000810004/", NULL, id AS category_id FROM category WHERE name = "biscuits";'
     """
 
     sql_list = []
     insert_cat = "INSERT INTO category (`name`) VALUES ('{}');"
-    insert_prod = """INSERT INTO product (`code`, `url`, `name`, `nutrition_grades`, `category_id`) \
-SELECT "{code}", "{url}", "{name}", "{nutri}", id AS category_id \
+    insert_prod = """INSERT INTO product (`name`, `code`, `url`, `nutrition_grades`, `category_id`) \
+SELECT "{name}", "{code}", "{url}", "{nutri}", id AS category_id \
 FROM category \
 WHERE name = "{cat}";"""
 
@@ -280,10 +293,10 @@ WHERE name = "{cat}";"""
         for idx, val in enumerate(staging_data['products']):
             sql_list.append(
                 insert_prod.format(
-                    code=staging_data['products'][idx]['_id'],
-                    url=staging_data['products'][idx]['url'],
-                    name=staging_data['products'][idx]['product_name'],
-                    nutri=staging_data['products'][idx]['nutrition_grades'],
+                    code=val['_id'],
+                    url=val['url'],
+                    name=val['product_name'],
+                    nutri=val['nutrition_grades'],
                     cat=used_category
                 )
             )
@@ -306,6 +319,9 @@ WHERE name = "{cat}";"""
 
     else:
         sql_list = False
+
+    if sql_list is not False:
+        sql_list = false_to_null(sql_list)
 
     return sql_list
 
