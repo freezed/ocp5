@@ -25,6 +25,14 @@ FIELD_KEPT = {
     ]
 }
 
+# CLI
+DB_REQUEST = {
+    'list_cat': "SELECT c.name, COUNT(*) FROM category AS c JOIN product AS p ON p.category_id = c.id GROUP BY c.name ORDER BY COUNT(*) DESC;",
+    'list_prod': "SELECT p.name FROM product AS p LEFT JOIN category AS c ON p.category_id = c.id WHERE c.name = '{}';",
+    'get_better': "SELECT p.name, p.nutrition_grades FROM product AS p LEFT JOIN category AS c ON p.category_id = c.id WHERE c.name = '{}' AND p.nutrition_grades < '{}'",
+    'save_substitute': "UPDATE product SET substitute_id={} WHERE id={}",
+}
+
 # DATABASE
 DB_CONFIG = {
     'host': 'localhost',
