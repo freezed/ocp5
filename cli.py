@@ -13,12 +13,39 @@ alternative with a better 'nutriscore'.
 You can save this product to get it later.
 
  """
+from os import system
+from db import Db
+from config import DB_REQUEST, CLI_MSG_DISCLAIMER, CLI_MSG_ASK_CAT
+
+# Starts a DB connection
+local_db = Db()
+# print(local_db.message)
 
 # Gets category list
+local_db.execute(DB_REQUEST['list_cat'])
+
+# Hacky result split for rendering in 2 columns
+results_1 = [(idx, val['name'], val['COUNT(*)']) for idx, val in enumerate(local_db.result) if idx%2 != 0]
+results_2 = [(idx, val['name'], val['COUNT(*)']) for idx, val in enumerate(local_db.result) if idx%2 == 0]
+
+cli_msg = str()
+for num, row in enumerate(results_1):
+    cli_msg += "{} : {} \t\t {} : {}\n".format(
+        results_2[num][0],
+        results_2[num][1],
+        row[0],
+        row[1]
+    )
+
 
 # Prompts it with an index
+system('clear')
+print(CLI_MSG_DISCLAIMER)
+print(cli_msg)
 
 # Asks the user to enter the index of the selected category
+input(CLI_MSG_ASK_CAT)
+
 
     # If index is not valid, re-ask
 
