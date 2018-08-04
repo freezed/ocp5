@@ -43,3 +43,24 @@ DB_MSG_TEMPLATE = {
     "dashboard": "DB size : {dbsize}\nTable 'product' has «{rowprod}» "
                  "row(s)\nTable 'category' has «{rowcat}» row(s)"
 }
+
+# POPULATE
+POP_MSG_TEMPLATE = {
+    'work': '\n# # # # # #\tC A T E G O R Y --[ {} ]--',
+    'fetch': '\tFetching data over API…',
+    'insert': '\tInserting data into DB…',
+    'missing': '\t/!\\ [ {} ] do not exists /!\\',
+    # '': '',
+}
+
+CATEGORY_LIST = [
+    'ail',
+    'bio',
+    'blés',
+    'roti',
+    'edam',
+    'kits',
+    'farces',
+    'bars',
+    'insectes'
+]
