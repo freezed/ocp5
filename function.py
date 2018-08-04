@@ -249,6 +249,9 @@ def sql_generator(staging_data):
     :return: list() of SQL requests
 
     :Tests:
+    >>> sql_generator(False) is False
+    True
+
     >>> bisc = {'count': 4377,'category':'biscuits','products':[{'_id':'8480000141323','categories_tags':['en:sugary-snacks','en:biscuits-and-cakes','en:biscuits'],'nutrition_grades':'e','product_name':'Galletas María Dorada Hacendado','url':'https://fr-en.openfoodfacts.org/product/8480000141323/galletas-maria-dorada-hacendado'},{'_id':'3593551174971','categories_tags':['en:sugary-snacks','en:biscuits-and-cakes','en:biscuits'],'nutrition_grades':'False','product_name':'Les Broyés du Poitou','url':'https://fr-en.openfoodfacts.org/product/3593551174971/les-broyes-du-poitou-les-mousquetaires'}]}
 
     >>> sql_list_bisc = sql_generator(bisc)
@@ -283,7 +286,7 @@ SELECT "{name}", "{code}", "{url}", "{nutri}", id AS category_id \
 FROM category \
 WHERE name = "{cat}";"""
 
-    if 'category' in staging_data.keys():
+    if staging_data is not False and 'category' in staging_data.keys():
         used_category = staging_data['category']
 
         # insert category
@@ -301,7 +304,7 @@ WHERE name = "{cat}";"""
                 )
             )
 
-    elif 'product_name' in staging_data.keys():
+    elif staging_data is not False and 'product_name' in staging_data.keys():
         used_category = pick_category(staging_data['categories_tags'])
 
         # insert category
