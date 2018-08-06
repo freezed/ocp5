@@ -32,10 +32,16 @@ DB_REQUEST = {
     'get_better': "SELECT p.name, p.nutrition_grades FROM product AS p LEFT JOIN category AS c ON p.category_id = c.id WHERE c.name = '{}' AND p.nutrition_grades < '{}'",
     'save_substitute': "UPDATE product SET substitute_id={} WHERE id={}",
 }
-CLI_MSG_DISCLAIMER = "# # # Bienvenu sur le terminal # # #\n"\
-"Voici la liste des catégories disponines : \n"
 
-CLI_MSG_ASK_CAT = "Saisissez le nombre de la catégorie choisie : "
+CLI_MSG_DISCLAIMER = "# # # Bienvenu sur le terminal # # #\n"\
+    "Voici la liste des catégories disponibles : \n"
+
+CLI_MSG_ASK_CAT = "Saisissez le nombre de la catégorie choisie [0-{}]"\
+    "\n(«Q» pour quitter): "
+
+CLI_MSG_ASK_ERR = "\nSaisie incorrecte : «{}»"
+CLI_MSG_QUIT = "\nAu revoir!"
+CLI_MSG_CHOOSEN_CAT = "\n= = = = =[ {} ]= = = ="
 
 
 # DATABASE
