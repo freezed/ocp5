@@ -21,72 +21,97 @@ from config import DB_REQUEST, CLI_MSG_DISCLAIMER, CLI_MSG_ASK_CAT, \
 valid_category = False
 cli_msg = str()
 
+
+def get_data_list(db_obj, sql):
+    """
+    Gets data from DB & return them formated as a text list displayable on CLI
+
+    :db_obj: a database object [PyMySQL]
+    :sql: a SQL query
+
+    :Return: a dict containing details on requested data:
+        - max_id: maximum ID
+        - results_list: stored in a list of tuple (id, name, count)
+        - results_txt: in a string, text-formated
+    """
+
+    db_obj.execute(sql)
+    max_id = int(db_obj.cursor.rowcount - 1)
+    results_list = [(idx, val['name'], val['COUNT(*)'])
+                    for idx, val in enumerate(db_obj.result)]
+
+    # Hacky results-split for rendering in 2 columns
+    res_even = [(idx, val['name'], val['COUNT(*)'])
+                for idx, val in enumerate(db_obj.result) if idx % 2 == 0]
+    res_uneven = [(idx, val['name'], val['COUNT(*)'])
+                  for idx, val in enumerate(db_obj.result) if idx % 2 != 0]
+    # category list
+    results_txt = ""
+    for num, unused in enumerate(res_uneven):
+        results_txt += "{} : {} \t\t {} : {}\n".format(
+            res_even[num][0],
+            res_even[num][1],
+            res_uneven[num][0],
+            res_uneven[num][1]
+        )
+
+    if len(res_uneven) < len(res_even):
+        num += 1
+        results_txt += "{} : {}\n".format(
+            res_even[num][0],
+            res_even[num][1]
+        )
+
+    return {
+        'max_id': max_id,
+        'results_list': results_list,
+        'results_txt': results_txt
+    }
+
+
 # Starts a DB connection
 LOCAL_DB = Db()
-# print(LOCAL_DB.message)
-
-# Gets category list
-LOCAL_DB.execute(DB_REQUEST['list_cat'])
-IDX_MAX = int(LOCAL_DB.cursor.rowcount - 1)
-CATEGORIES = [(idx, val['name'], val['COUNT(*)'])
-              for idx, val in enumerate(LOCAL_DB.result)]
-
-# Hacky results-split for rendering in 2 columns
-RES_EVEN = [(idx, val['name'], val['COUNT(*)'])
-            for idx, val in enumerate(LOCAL_DB.result) if idx % 2 == 0]
-RES_UNEVEN = [(idx, val['name'], val['COUNT(*)'])
-              for idx, val in enumerate(LOCAL_DB.result) if idx % 2 != 0]
 
 # category list
-CLI_MSG_LIST = ""
-for num, row in enumerate(RES_UNEVEN):
-    CLI_MSG_LIST += "{} : {} \t\t {} : {}\n".format(
-        RES_EVEN[num][0],
-        RES_EVEN[num][1],
-        RES_UNEVEN[num][0],
-        RES_UNEVEN[num][1]
-    )
-
-if len(RES_UNEVEN) < len(RES_EVEN):
-    num += 1
-    CLI_MSG_LIST += "{} : {}\n".format(
-        RES_EVEN[num][0],
-        RES_EVEN[num][1]
-    )
+categories = get_data_list(LOCAL_DB, DB_REQUEST['list_cat'])
+CAT_MAX_ID = categories['max_id']
+CATEGORIES = categories['results_list']
+CAT_TXT_LIST = categories['results_txt']
 
 # Prompts it with an index
 # Asks the user to enter the index of the selected category
 while valid_category is False:
     system('clear')
+    print(LOCAL_DB.message)
     print(CLI_MSG_DISCLAIMER)
-    print(CLI_MSG_LIST)
+    print(CAT_TXT_LIST)
     print(cli_msg)
 
-    response = input(CLI_MSG_ASK_CAT.format(IDX_MAX))
+    RESPONSE = input(CLI_MSG_ASK_CAT.format(CAT_MAX_ID))
 
-    if response.lower() == "q":
+    if RESPONSE.lower() == "q":
         valid_category = True
         cli_msg = CLI_MSG_QUIT
 
     else:
         try:
-            response = int(response)
+            RESPONSE = int(RESPONSE)
 
         # Response not int(), re-ask
         except ValueError:
-            cli_msg += CLI_MSG_ASK_ERR.format(response)
+            cli_msg += CLI_MSG_ASK_ERR.format(RESPONSE)
             # pass
 
         else:
             # Response is valid
-            if response <= IDX_MAX:
+            if RESPONSE <= CAT_MAX_ID:
                 valid_category = True
-                category = CATEGORIES[response]
+                category = CATEGORIES[RESPONSE]
                 cli_msg = CLI_MSG_CHOOSEN_CAT.format(category[1])
 
             # Response not in range, re-ask
             else:
-                cli_msg += CLI_MSG_ASK_ERR.format(response)
+                cli_msg += CLI_MSG_ASK_ERR.format(RESPONSE)
 
 # Lists all products
 
