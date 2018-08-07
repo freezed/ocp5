@@ -18,7 +18,8 @@ from db import Db
 from config import DB_REQUEST, CLI_MSG_DISCLAIMER, CLI_MSG_ASK_IDX, \
     CLI_MSG_ASK_ERR, CLI_MSG_QUIT, CLI_MSG_CHOOSEN_CAT, CLI_MSG_PROD, \
     CLI_MSG_SUBST, CLI_MSG_NO_SUBST, CLI_MSG_CAT, CLI_MSG_CHOOSEN_PROD, \
-    CLI_MSG_DETAILLED_SUB, CLI_MSG_CHOOSEN_SUBST
+    CLI_MSG_DETAILLED_SUB, CLI_MSG_CHOOSEN_SUBST, CLI_ITEM_MAX_LEN, \
+    CLI_ITEM_LIST
 cli_end_msg = str()
 product_asked = {'valid_item': False}
 
@@ -95,14 +96,21 @@ def get_data_list(db_obj, sql):
                     for idx, val in enumerate(db_obj.result)]
 
     # Hacky results-split for rendering in 2 columns
-    res_even = [(idx, val['name'], val['option'], val['id'])
-                for idx, val in enumerate(db_obj.result) if idx % 2 == 0]
-    res_uneven = [(idx, val['name'], val['option'], val['id'])
-                  for idx, val in enumerate(db_obj.result) if idx % 2 != 0]
+    res_even = [(
+        idx,
+        val['name'][:CLI_ITEM_MAX_LEN].ljust(CLI_ITEM_MAX_LEN),
+        val['option'], val['id']
+    ) for idx, val in enumerate(db_obj.result) if idx % 2 == 0]
+    res_uneven = [(
+        idx,
+        val['name'][:CLI_ITEM_MAX_LEN],
+        val['option'],
+        val['id']
+    ) for idx, val in enumerate(db_obj.result) if idx % 2 != 0]
     # category list
     results_txt = ""
     for num, unused in enumerate(res_uneven):
-        results_txt += "{} : {} \t\t {} : {}\n".format(
+        results_txt += CLI_ITEM_LIST.format(
             res_even[num][0],
             res_even[num][1],
             res_uneven[num][0],

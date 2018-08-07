@@ -34,6 +34,8 @@ DB_REQUEST = {
     'save_substitute': "UPDATE product SET substitute_id={} WHERE id={}",
 }
 
+CLI_ITEM_MAX_LEN = 30
+CLI_ITEM_LIST = "{} : {} \t {} : {}\n"
 CLI_MSG_DISCLAIMER = "# # # Bienvenu sur le terminal # # #\n\n"
 CLI_MSG_CAT = "Catégories disponibles :\n"
 CLI_MSG_PROD = "Produits disponibles :\n"
@@ -51,7 +53,6 @@ CLI_MSG_DETAILLED_SUB = "Nutriscore [ {nutri} ]\tCode [ {code} ]"\
 CLI_MSG_NO_SUBST = "Pas de substitut trouvé pour le produit «{}» (nutriscore : «{}»)"
 CLI_MSG_ASK_ERR = "\nSaisie incorrecte : «{}»"
 CLI_MSG_QUIT = "\nAu revoir!"
-#CLI_ITEM_MAX_LEN = 15
 
 # DATABASE
 DB_CONFIG = {
