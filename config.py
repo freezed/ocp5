@@ -35,14 +35,17 @@ DB_REQUEST = {
 
 CLI_MSG_DISCLAIMER = "\n# # # Bienvenu sur le terminal # # #\n"\
     "Voici la liste des catégories disponibles : \n"
+CLI_MSG_PROD = "Produits disponibles :\n"
 
 CLI_MSG_ASK_CAT = "Saisissez le nombre de la catégorie choisie [0-{}]"\
     "\n(«Q» pour quitter): "
 
 CLI_MSG_ASK_ERR = "\nSaisie incorrecte : «{}»"
 CLI_MSG_QUIT = "\nAu revoir!"
-CLI_MSG_CHOOSEN_CAT = "\n# # Categorie : [ {} ] # #"
+CLI_MSG_CHOOSEN_CAT = "# # Categorie : [ {} ]\n"
+CLI_MSG_CHOOSEN_PROD = "\n# Produits : [ {} ]"
 
+CLI_ITEM_MAX_LEN = 15
 
 # DATABASE
 DB_CONFIG = {

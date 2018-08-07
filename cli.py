@@ -16,10 +16,11 @@ You can save this product to get it later.
 from os import system
 from db import Db
 from config import DB_REQUEST, CLI_MSG_DISCLAIMER, CLI_MSG_ASK_CAT, \
-    CLI_MSG_ASK_ERR, CLI_MSG_QUIT, CLI_MSG_CHOOSEN_CAT
-
+    CLI_MSG_ASK_ERR, CLI_MSG_QUIT, CLI_MSG_CHOOSEN_CAT, CLI_MSG_CHOOSEN_PROD, \
+    CLI_MSG_PROD
 cli_msg = str()
 
+product_asked = {'valid_item': False}
 
 def ask_user(head_msg, foot_msg, item_list, db_obj=None):
     """
@@ -141,11 +142,20 @@ category_asked = ask_user(CLI_MSG_DISCLAIMER, cli_msg, category_list, LOCAL_DB)
 
 # Lists all products
 if category_asked['valid_item']:
+    product_list = get_data_list(
+        LOCAL_DB, DB_REQUEST['list_prod'].format(category_asked['item'][1])
+    )
+    CLI_MSG_PROD = CLI_MSG_CHOOSEN_CAT.format(category_asked['item'][1]) \
+        + CLI_MSG_PROD
+
+    product_asked = ask_user(CLI_MSG_PROD, cli_msg, product_list)
+
+if product_asked['valid_item']:
     cli_msg = CLI_MSG_CHOOSEN_CAT.format(category_asked['item'][1])
+    cli_msg += CLI_MSG_CHOOSEN_PROD.format(product_asked['item'][1])
 
 else:
     cli_msg = CLI_MSG_QUIT
-
 
 # Asks the user to enter the index of the selected product
 
