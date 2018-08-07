@@ -15,12 +15,13 @@ You can save this product to get it later.
  """
 from os import system
 from db import Db
-from config import DB_REQUEST, CLI_MSG_DISCLAIMER, CLI_MSG_ASK_CAT, \
-    CLI_MSG_ASK_ERR, CLI_MSG_QUIT, CLI_MSG_CHOOSEN_CAT, CLI_MSG_CHOOSEN_PROD, \
-    CLI_MSG_PROD
+from config import DB_REQUEST, CLI_MSG_DISCLAIMER, CLI_MSG_ASK_IDX, \
+    CLI_MSG_ASK_ERR, CLI_MSG_QUIT, CLI_MSG_CHOOSEN_CAT, CLI_MSG_PROD, \
+    CLI_MSG_PROD, CLI_MSG_SUBST, CLI_MSG_NO_SUBST
 cli_msg = str()
 
 product_asked = {'valid_item': False}
+
 
 def ask_user(head_msg, foot_msg, item_list, db_obj=None):
     """
@@ -50,7 +51,7 @@ def ask_user(head_msg, foot_msg, item_list, db_obj=None):
         print(item_list['results_txt'])
         print(foot_msg)
 
-        user_input = input(CLI_MSG_ASK_CAT.format(item_list['max_id']))
+        user_input = input(CLI_MSG_ASK_IDX.format(item_list['max_id']))
 
         if user_input.lower() == "q":
             valid_input = True
@@ -98,13 +99,13 @@ def get_data_list(db_obj, sql):
 
     db_obj.execute(sql)
     max_id = int(db_obj.cursor.rowcount - 1)
-    results_list = [(idx, val['name'], val['COUNT(*)'])
+    results_list = [(idx, val['name'], val['option'])
                     for idx, val in enumerate(db_obj.result)]
 
     # Hacky results-split for rendering in 2 columns
-    res_even = [(idx, val['name'], val['COUNT(*)'])
+    res_even = [(idx, val['name'], val['option'])
                 for idx, val in enumerate(db_obj.result) if idx % 2 == 0]
-    res_uneven = [(idx, val['name'], val['COUNT(*)'])
+    res_uneven = [(idx, val['name'], val['option'])
                   for idx, val in enumerate(db_obj.result) if idx % 2 != 0]
     # category list
     results_txt = ""
@@ -133,14 +134,25 @@ def get_data_list(db_obj, sql):
 # Starts a DB connection
 LOCAL_DB = Db()
 
-# category list
-category_list = get_data_list(LOCAL_DB, DB_REQUEST['list_cat'])
+####################
+# LISTS CATEGORIES #
+####################
+category_list = get_data_list(
+    LOCAL_DB,
+    DB_REQUEST['list_cat']
+)
 
-# Prompts it with an index
-# Asks the user to enter the index of the selected category
-category_asked = ask_user(CLI_MSG_DISCLAIMER, cli_msg, category_list, LOCAL_DB)
+# Asks the user to select a category
+category_asked = ask_user(
+    CLI_MSG_DISCLAIMER,
+    "WTF0",     # cli_msg
+    category_list,
+    LOCAL_DB
+)
 
-# Lists all products
+##################
+# LISTS PRODUCTS #
+##################
 if category_asked['valid_item']:
     product_list = get_data_list(
         LOCAL_DB, DB_REQUEST['list_prod'].format(category_asked['item'][1])
@@ -148,21 +160,51 @@ if category_asked['valid_item']:
     CLI_MSG_PROD = CLI_MSG_CHOOSEN_CAT.format(category_asked['item'][1]) \
         + CLI_MSG_PROD
 
-    product_asked = ask_user(CLI_MSG_PROD, cli_msg, product_list)
+    # Asks the user to select a product
+    product_asked = ask_user(
+        CLI_MSG_PROD,
+        "WTF1",    # cli_msg
+        product_list
+    )
 
+####################
+# LISTS SUBTITUTES #
+####################
 if product_asked['valid_item']:
-    cli_msg = CLI_MSG_CHOOSEN_CAT.format(category_asked['item'][1])
-    cli_msg += CLI_MSG_CHOOSEN_PROD.format(product_asked['item'][1])
+    substitute_list = get_data_list(
+        LOCAL_DB,
+        DB_REQUEST['list_substitute'].format(
+            category_asked['item'][1],
+            product_asked['item'][2]
+        )
+    )
+
+    # No substitute found
+    if substitute_list['max_id'] == -1:
+        cli_msg = CLI_MSG_NO_SUBST.format(
+            product_asked['item'][1],
+            product_asked['item'][2]
+        )
+
+    # Shows product in the same category with a lowest nutriscore
+    elif substitute_list['max_id'] > 0:
+        substitute_asked = ask_user(
+            CLI_MSG_SUBST,
+            "WTF2",
+            substitute_list
+        )
+
+        if substitute_asked['valid_item']:
+            cli_msg = "cli_msg : «{}»\n\n".format(cli_msg)
+            cli_msg += "category : «{}»\n\n".format(category_asked['item'][1])
+            cli_msg += "product : «{}»\n\n".format(product_asked['item'][1])
+            cli_msg += "substitut : «{}»".format(substitute_asked['item'][1])
+
+            # Asks the user to select a substitute
+
+            # Saves if user choose it
 
 else:
     cli_msg = CLI_MSG_QUIT
-
-# Asks the user to enter the index of the selected product
-
-    # If index is not valid, re-ask
-
-# Shows the 1st product in the same category with the lowest nutriscore
-
-# Saves if user choose it
 
 print(cli_msg)

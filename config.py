@@ -27,24 +27,28 @@ FIELD_KEPT = {
 
 # CLI
 DB_REQUEST = {
-    'list_cat': "SELECT c.name, COUNT(*) FROM category AS c JOIN product AS p ON p.category_id = c.id GROUP BY c.name ORDER BY COUNT(*) DESC;",
-    'list_prod': "SELECT p.name, 'COUNT(*)' FROM product AS p LEFT JOIN category AS c ON p.category_id = c.id WHERE c.name = '{}';",
-    'get_better': "SELECT p.name, p.nutrition_grades FROM product AS p LEFT JOIN category AS c ON p.category_id = c.id WHERE c.name = '{}' AND p.nutrition_grades < '{}'",
+    'list_cat': "SELECT c.name, COUNT(*) AS 'option' FROM category AS c JOIN product AS p ON p.category_id = c.id GROUP BY c.name ORDER BY COUNT(*) DESC;",
+    'list_prod': "SELECT p.name, p.nutrition_grades AS 'option' FROM product AS p LEFT JOIN category AS c ON p.category_id = c.id WHERE c.name = '{}';",
+    'list_substitute': "SELECT p.name, p.nutrition_grades AS 'option' FROM product AS p LEFT JOIN category AS c ON p.category_id = c.id WHERE c.name = '{}' AND p.nutrition_grades < '{}'",
     'save_substitute': "UPDATE product SET substitute_id={} WHERE id={}",
 }
 
 CLI_MSG_DISCLAIMER = "\n# # # Bienvenu sur le terminal # # #\n"\
     "Voici la liste des catégories disponibles : \n"
-CLI_MSG_PROD = "Produits disponibles :\n"
 
-CLI_MSG_ASK_CAT = "Saisissez le nombre de la catégorie choisie [0-{}]"\
-    "\n(«Q» pour quitter): "
+CLI_MSG_PROD = "Produits disponibles :\n"
+CLI_MSG_SUBST = "Substituts disponibles :\n"
+CLI_MSG_ASK_IDX = "Index choisi [0-{}] («Q»uitter) :"
+
+CLI_MSG_ASK_BAK = "Voulez vous sauvegarder «{}» en substitut du produit «{}»?"\
+    " [O/N]\n(«Q» pour quitter): "
 
 CLI_MSG_ASK_ERR = "\nSaisie incorrecte : «{}»"
 CLI_MSG_QUIT = "\nAu revoir!"
 CLI_MSG_CHOOSEN_CAT = "# # Categorie : [ {} ]\n"
 CLI_MSG_CHOOSEN_PROD = "\n# Produits : [ {} ]"
-
+CLI_MSG_CHOOSEN_SUBST = "\nSubstitut : [ {} ]"
+CLI_MSG_NO_SUBST = "Pas de substitut trouvé pour le produit «{}» (nutriscore : «{}»)"
 CLI_ITEM_MAX_LEN = 15
 
 # DATABASE
