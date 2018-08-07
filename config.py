@@ -30,6 +30,7 @@ DB_REQUEST = {
     'list_cat': "SELECT c.name, COUNT(*) AS 'option' FROM category AS c JOIN product AS p ON p.category_id = c.id GROUP BY c.name ORDER BY COUNT(*) DESC;",
     'list_prod': "SELECT p.name, p.nutrition_grades AS 'option' FROM product AS p LEFT JOIN category AS c ON p.category_id = c.id WHERE c.name = '{}';",
     'list_substitute': "SELECT p.name, p.nutrition_grades AS 'option' FROM product AS p LEFT JOIN category AS c ON p.category_id = c.id WHERE c.name = '{}' AND p.nutrition_grades < '{}'",
+    'select_substitute': "SELECT p.*, c.name FROM product AS p LEFT JOIN category AS c ON p.category_id = c.id WHERE p.name = '{}'",
     'save_substitute': "UPDATE product SET substitute_id={} WHERE id={}",
 }
 
@@ -41,13 +42,16 @@ CLI_MSG_ASK_IDX = "Index choisi [0-{}] («Q»uitter) :"
 CLI_MSG_ASK_BAK = "Voulez vous sauvegarder «{}» en substitut du produit «{}»?"\
     " [O/N]\n(«Q» pour quitter): "
 
-CLI_MSG_ASK_ERR = "\nSaisie incorrecte : «{}»"
-CLI_MSG_QUIT = "\nAu revoir!"
 CLI_MSG_CHOOSEN_CAT = "# # Categorie : [ {} ]\n"
 CLI_MSG_CHOOSEN_PROD = "# Produits : [ {} ]\n"
-CLI_MSG_CHOOSEN_SUBST = "Substitut : [ {} ]\n"
+CLI_MSG_CHOOSEN_SUBST = "Fiche complète du substitut : [ {} ]\n"
+CLI_MSG_DETAILLED_SUB = "Nutriscore [ {nutri} ]\tCode [ {code} ]"\
+    "\nURL:{url}"
+
 CLI_MSG_NO_SUBST = "Pas de substitut trouvé pour le produit «{}» (nutriscore : «{}»)"
-CLI_ITEM_MAX_LEN = 15
+CLI_MSG_ASK_ERR = "\nSaisie incorrecte : «{}»"
+CLI_MSG_QUIT = "\nAu revoir!"
+#CLI_ITEM_MAX_LEN = 15
 
 # DATABASE
 DB_CONFIG = {

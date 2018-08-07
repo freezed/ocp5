@@ -17,8 +17,8 @@ from os import system
 from db import Db
 from config import DB_REQUEST, CLI_MSG_DISCLAIMER, CLI_MSG_ASK_IDX, \
     CLI_MSG_ASK_ERR, CLI_MSG_QUIT, CLI_MSG_CHOOSEN_CAT, CLI_MSG_PROD, \
-    CLI_MSG_SUBST, CLI_MSG_NO_SUBST, CLI_MSG_CAT, CLI_MSG_CHOOSEN_PROD
-
+    CLI_MSG_SUBST, CLI_MSG_NO_SUBST, CLI_MSG_CAT, CLI_MSG_CHOOSEN_PROD, \
+    CLI_MSG_DETAILLED_SUB, CLI_MSG_CHOOSEN_SUBST
 cli_end_msg = str()
 product_asked = {'valid_item': False}
 
@@ -185,19 +185,33 @@ if product_asked['valid_item']:
             product_asked['item'][2]
         )
 
-    # Shows product in the same category with a lowest nutriscore
+    # Asks the user to select a substitute
     elif substitute_list['max_id'] > 0:
-        substitute_asked = ask_user(
+        substit_asked = ask_user(
             head_msg,
             substitute_list
         )
 
-        if substitute_asked['valid_item']:
-            cli_end_msg += "category : «{}»\n".format(category_asked['item'][1])
-            cli_end_msg += "product : «{}»\n".format(product_asked['item'][1])
-            cli_end_msg += "substitut : «{}»".format(substitute_asked['item'][1])
+        ##########################
+        # SHOW SUBTITUTE DETAILS #
+        ##########################
+        if substit_asked['valid_item']:
+            LOCAL_DB.execute(DB_REQUEST['select_substitute'].format(
+                substit_asked['item'][1]
+            ))
 
-            # Asks the user to select a substitute
+            head_msg = CLI_MSG_DISCLAIMER
+            head_msg += CLI_MSG_CHOOSEN_CAT.format(category_asked['item'][1])
+            head_msg += CLI_MSG_CHOOSEN_PROD.format(product_asked['item'][1])
+            head_msg += CLI_MSG_CHOOSEN_SUBST.format(substit_asked['item'][1])
+            head_msg += CLI_MSG_DETAILLED_SUB.format(
+                code=LOCAL_DB.result[0]['code'],
+                nutri=LOCAL_DB.result[0]['nutrition_grades'],
+                url=LOCAL_DB.result[0]['url']
+            )
+
+            system('clear')
+            print(head_msg)
 
             # Saves if user choose it
 
