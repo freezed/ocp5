@@ -8,8 +8,8 @@ Licence: `GNU GPL v3` GNU GPL v3: http://www.gnu.org/licenses/
 
     Command line interface to interact with local DB
 
-Choose a product in a list of aivaiable CATEGORIES, the system gives you an
-alternative with a better 'nutriscore'.
+Choose a product in a list of aivaiable categories['results_list'],
+the system gives you an alternative with a better 'nutriscore'.
 You can save this product to get it later.
 
  """
@@ -18,8 +18,68 @@ from db import Db
 from config import DB_REQUEST, CLI_MSG_DISCLAIMER, CLI_MSG_ASK_CAT, \
     CLI_MSG_ASK_ERR, CLI_MSG_QUIT, CLI_MSG_CHOOSEN_CAT
 
-valid_category = False
 cli_msg = str()
+
+
+def ask_user(head_msg, foot_msg, item_list, db_obj=None):
+    """
+    Ask user to choose an item in the provided list, using numeric index
+
+    :head_msg:  Text displayed in header
+    :foot_msg:  Text displayed in footer
+    :item_list: Dict() containing all data about item (see `get_data_list()`)
+    :db_obj:        Database object (optionnal)
+
+    :result:
+        - item:
+        - cli_msg:
+        - valid_item:
+    """
+    valid_input = False
+
+    if db_obj is not None:
+        db_msg = db_obj.message
+    else:
+        db_msg = ""
+
+    while valid_input is False:
+        system('clear')
+        print(db_msg)
+        print(head_msg)
+        print(item_list['results_txt'])
+        print(foot_msg)
+
+        user_input = input(CLI_MSG_ASK_CAT.format(item_list['max_id']))
+
+        if user_input.lower() == "q":
+            valid_input = True
+            valid_item = False
+            item = ""
+
+        else:
+            try:
+                user_input = int(user_input)
+
+            # Response not int(), re-ask
+            except ValueError:
+                foot_msg += CLI_MSG_ASK_ERR.format(user_input)
+
+            else:
+                # Response is valid
+                if user_input <= item_list['max_id']:
+                    valid_input = True
+                    valid_item = True
+                    item = item_list['results_list'][user_input]
+                    foot_msg = CLI_MSG_CHOOSEN_CAT.format(item[1])
+
+                # Response not in range, re-ask
+                else:
+                    foot_msg += CLI_MSG_ASK_ERR.format(user_input)
+    return {
+        'item': item,
+        'cli_msg': foot_msg,
+        'valid_item': valid_item
+    }
 
 
 def get_data_list(db_obj, sql):
@@ -73,47 +133,19 @@ def get_data_list(db_obj, sql):
 LOCAL_DB = Db()
 
 # category list
-categories = get_data_list(LOCAL_DB, DB_REQUEST['list_cat'])
-CAT_MAX_ID = categories['max_id']
-CATEGORIES = categories['results_list']
-CAT_TXT_LIST = categories['results_txt']
+category_list = get_data_list(LOCAL_DB, DB_REQUEST['list_cat'])
 
 # Prompts it with an index
 # Asks the user to enter the index of the selected category
-while valid_category is False:
-    system('clear')
-    print(LOCAL_DB.message)
-    print(CLI_MSG_DISCLAIMER)
-    print(CAT_TXT_LIST)
-    print(cli_msg)
-
-    RESPONSE = input(CLI_MSG_ASK_CAT.format(CAT_MAX_ID))
-
-    if RESPONSE.lower() == "q":
-        valid_category = True
-        cli_msg = CLI_MSG_QUIT
-
-    else:
-        try:
-            RESPONSE = int(RESPONSE)
-
-        # Response not int(), re-ask
-        except ValueError:
-            cli_msg += CLI_MSG_ASK_ERR.format(RESPONSE)
-            # pass
-
-        else:
-            # Response is valid
-            if RESPONSE <= CAT_MAX_ID:
-                valid_category = True
-                category = CATEGORIES[RESPONSE]
-                cli_msg = CLI_MSG_CHOOSEN_CAT.format(category[1])
-
-            # Response not in range, re-ask
-            else:
-                cli_msg += CLI_MSG_ASK_ERR.format(RESPONSE)
+category_asked = ask_user(CLI_MSG_DISCLAIMER, cli_msg, category_list, LOCAL_DB)
 
 # Lists all products
+if category_asked['valid_item']:
+    cli_msg = CLI_MSG_CHOOSEN_CAT.format(category_asked['item'][1])
+
+else:
+    cli_msg = CLI_MSG_QUIT
+
 
 # Asks the user to enter the index of the selected product
 

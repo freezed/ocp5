@@ -33,7 +33,7 @@ DB_REQUEST = {
     'save_substitute': "UPDATE product SET substitute_id={} WHERE id={}",
 }
 
-CLI_MSG_DISCLAIMER = "# # # Bienvenu sur le terminal # # #\n"\
+CLI_MSG_DISCLAIMER = "\n# # # Bienvenu sur le terminal # # #\n"\
     "Voici la liste des catégories disponibles : \n"
 
 CLI_MSG_ASK_CAT = "Saisissez le nombre de la catégorie choisie [0-{}]"\
@@ -41,7 +41,7 @@ CLI_MSG_ASK_CAT = "Saisissez le nombre de la catégorie choisie [0-{}]"\
 
 CLI_MSG_ASK_ERR = "\nSaisie incorrecte : «{}»"
 CLI_MSG_QUIT = "\nAu revoir!"
-CLI_MSG_CHOOSEN_CAT = "\n= = = = =[ {} ]= = = ="
+CLI_MSG_CHOOSEN_CAT = "\n# # Categorie : [ {} ] # #"
 
 
 # DATABASE
