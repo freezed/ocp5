@@ -91,13 +91,13 @@ def get_data_list(db_obj, sql):
 
     db_obj.execute(sql)
     max_id = int(db_obj.cursor.rowcount - 1)
-    results_list = [(idx, val['name'], val['option'])
+    results_list = [(idx, val['name'], val['option'], val['id'])
                     for idx, val in enumerate(db_obj.result)]
 
     # Hacky results-split for rendering in 2 columns
-    res_even = [(idx, val['name'], val['option'])
+    res_even = [(idx, val['name'], val['option'], val['id'])
                 for idx, val in enumerate(db_obj.result) if idx % 2 == 0]
-    res_uneven = [(idx, val['name'], val['option'])
+    res_uneven = [(idx, val['name'], val['option'], val['id'])
                   for idx, val in enumerate(db_obj.result) if idx % 2 != 0]
     # category list
     results_txt = ""
@@ -148,7 +148,7 @@ category_asked = ask_user(
 ##################
 if category_asked['valid_item']:
     product_list = get_data_list(
-        LOCAL_DB, DB_REQUEST['list_prod'].format(category_asked['item'][1])
+        LOCAL_DB, DB_REQUEST['list_prod'].format(category_asked['item'][3])
     )
 
     head_msg = CLI_MSG_DISCLAIMER
@@ -168,7 +168,7 @@ if product_asked['valid_item']:
     substitute_list = get_data_list(
         LOCAL_DB,
         DB_REQUEST['list_substitute'].format(
-            category_asked['item'][1],
+            category_asked['item'][3],
             product_asked['item'][2]
         )
     )
@@ -197,7 +197,7 @@ if product_asked['valid_item']:
         ##########################
         if substit_asked['valid_item']:
             LOCAL_DB.execute(DB_REQUEST['select_substitute'].format(
-                substit_asked['item'][1]
+                substit_asked['item'][3]
             ))
 
             head_msg = CLI_MSG_DISCLAIMER

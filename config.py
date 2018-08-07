@@ -27,10 +27,10 @@ FIELD_KEPT = {
 
 # CLI
 DB_REQUEST = {
-    'list_cat': "SELECT c.name, COUNT(*) AS 'option' FROM category AS c JOIN product AS p ON p.category_id = c.id GROUP BY c.name ORDER BY COUNT(*) DESC;",
-    'list_prod': "SELECT p.name, p.nutrition_grades AS 'option' FROM product AS p LEFT JOIN category AS c ON p.category_id = c.id WHERE c.name = '{}';",
-    'list_substitute': "SELECT p.name, p.nutrition_grades AS 'option' FROM product AS p LEFT JOIN category AS c ON p.category_id = c.id WHERE c.name = '{}' AND p.nutrition_grades < '{}'",
-    'select_substitute': "SELECT p.*, c.name FROM product AS p LEFT JOIN category AS c ON p.category_id = c.id WHERE p.name = '{}'",
+    'list_cat': "SELECT c.name, COUNT(*) AS 'option', c.id AS 'id' FROM category AS c JOIN product AS p ON p.category_id = c.id GROUP BY c.name ORDER BY COUNT(*) DESC;",
+    'list_prod': "SELECT p.name, p.nutrition_grades AS 'option', p.id AS 'id' FROM product AS p LEFT JOIN category AS c ON p.category_id = c.id WHERE c.id = '{}' AND p.nutrition_grades IS NOT NULL;",
+    'list_substitute': "SELECT p.name, p.nutrition_grades AS 'option', p.id AS 'id' FROM product AS p LEFT JOIN category AS c ON p.category_id = c.id WHERE c.id = '{}' AND p.nutrition_grades < '{}'",
+    'select_substitute': "SELECT p.*, c.name FROM product AS p LEFT JOIN category AS c ON p.category_id = c.id WHERE p.id = '{}'",
     'save_substitute': "UPDATE product SET substitute_id={} WHERE id={}",
 }
 
