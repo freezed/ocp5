@@ -17,36 +17,29 @@ from os import system
 from db import Db
 from config import DB_REQUEST, CLI_MSG_DISCLAIMER, CLI_MSG_ASK_IDX, \
     CLI_MSG_ASK_ERR, CLI_MSG_QUIT, CLI_MSG_CHOOSEN_CAT, CLI_MSG_PROD, \
-    CLI_MSG_PROD, CLI_MSG_SUBST, CLI_MSG_NO_SUBST
-cli_msg = str()
+    CLI_MSG_SUBST, CLI_MSG_NO_SUBST, CLI_MSG_CAT, CLI_MSG_CHOOSEN_PROD
 
+cli_end_msg = str()
 product_asked = {'valid_item': False}
 
 
-def ask_user(head_msg, foot_msg, item_list, db_obj=None):
+def ask_user(head_msg, item_list):
     """
     Ask user to choose an item in the provided list, using numeric index
 
     :head_msg:  Text displayed in header
-    :foot_msg:  Text displayed in footer
     :item_list: Dict() containing all data about item (see `get_data_list()`)
-    :db_obj:        Database object (optionnal)
 
     :result:
         - item:
-        - cli_msg:
+        - cli_end_msg:
         - valid_item:
     """
     valid_input = False
-
-    if db_obj is not None:
-        db_msg = db_obj.message
-    else:
-        db_msg = ""
+    foot_msg = ""
 
     while valid_input is False:
         system('clear')
-        print(db_msg)
         print(head_msg)
         print(item_list['results_txt'])
         print(foot_msg)
@@ -72,14 +65,13 @@ def ask_user(head_msg, foot_msg, item_list, db_obj=None):
                     valid_input = True
                     valid_item = True
                     item = item_list['results_list'][user_input]
-                    foot_msg = CLI_MSG_CHOOSEN_CAT.format(item[1])
 
                 # Response not in range, re-ask
                 else:
                     foot_msg += CLI_MSG_ASK_ERR.format(user_input)
     return {
         'item': item,
-        'cli_msg': foot_msg,
+        'cli_end_msg': foot_msg,
         'valid_item': valid_item
     }
 
@@ -142,12 +134,13 @@ category_list = get_data_list(
     DB_REQUEST['list_cat']
 )
 
+head_msg = CLI_MSG_DISCLAIMER
+head_msg += CLI_MSG_CAT
+
 # Asks the user to select a category
 category_asked = ask_user(
-    CLI_MSG_DISCLAIMER,
-    "WTF0",     # cli_msg
-    category_list,
-    LOCAL_DB
+    head_msg,
+    category_list
 )
 
 ##################
@@ -157,13 +150,14 @@ if category_asked['valid_item']:
     product_list = get_data_list(
         LOCAL_DB, DB_REQUEST['list_prod'].format(category_asked['item'][1])
     )
-    CLI_MSG_PROD = CLI_MSG_CHOOSEN_CAT.format(category_asked['item'][1]) \
-        + CLI_MSG_PROD
+
+    head_msg = CLI_MSG_DISCLAIMER
+    head_msg += CLI_MSG_CHOOSEN_CAT.format(category_asked['item'][1])
+    head_msg += CLI_MSG_PROD
 
     # Asks the user to select a product
     product_asked = ask_user(
-        CLI_MSG_PROD,
-        "WTF1",    # cli_msg
+        head_msg,
         product_list
     )
 
@@ -179,9 +173,14 @@ if product_asked['valid_item']:
         )
     )
 
+    head_msg = CLI_MSG_DISCLAIMER
+    head_msg += CLI_MSG_CHOOSEN_CAT.format(category_asked['item'][1])
+    head_msg += CLI_MSG_CHOOSEN_PROD.format(product_asked['item'][1])
+    head_msg += CLI_MSG_SUBST
+
     # No substitute found
     if substitute_list['max_id'] == -1:
-        cli_msg = CLI_MSG_NO_SUBST.format(
+        cli_end_msg = CLI_MSG_NO_SUBST.format(
             product_asked['item'][1],
             product_asked['item'][2]
         )
@@ -189,22 +188,23 @@ if product_asked['valid_item']:
     # Shows product in the same category with a lowest nutriscore
     elif substitute_list['max_id'] > 0:
         substitute_asked = ask_user(
-            CLI_MSG_SUBST,
-            "WTF2",
+            head_msg,
             substitute_list
         )
 
         if substitute_asked['valid_item']:
-            cli_msg = "cli_msg : «{}»\n\n".format(cli_msg)
-            cli_msg += "category : «{}»\n\n".format(category_asked['item'][1])
-            cli_msg += "product : «{}»\n\n".format(product_asked['item'][1])
-            cli_msg += "substitut : «{}»".format(substitute_asked['item'][1])
+            cli_end_msg += "category : «{}»\n".format(category_asked['item'][1])
+            cli_end_msg += "product : «{}»\n".format(product_asked['item'][1])
+            cli_end_msg += "substitut : «{}»".format(substitute_asked['item'][1])
 
             # Asks the user to select a substitute
 
             # Saves if user choose it
 
-else:
-    cli_msg = CLI_MSG_QUIT
+        else:
+            cli_end_msg = CLI_MSG_QUIT
 
-print(cli_msg)
+else:
+    cli_end_msg = CLI_MSG_QUIT
+
+print(cli_end_msg)

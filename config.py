@@ -33,21 +33,19 @@ DB_REQUEST = {
     'save_substitute': "UPDATE product SET substitute_id={} WHERE id={}",
 }
 
-CLI_MSG_DISCLAIMER = "\n# # # Bienvenu sur le terminal # # #\n"\
-    "Voici la liste des catégories disponibles : \n"
-
+CLI_MSG_DISCLAIMER = "# # # Bienvenu sur le terminal # # #\n\n"
+CLI_MSG_CAT = "Catégories disponibles :\n"
 CLI_MSG_PROD = "Produits disponibles :\n"
 CLI_MSG_SUBST = "Substituts disponibles :\n"
 CLI_MSG_ASK_IDX = "Index choisi [0-{}] («Q»uitter) :"
-
 CLI_MSG_ASK_BAK = "Voulez vous sauvegarder «{}» en substitut du produit «{}»?"\
     " [O/N]\n(«Q» pour quitter): "
 
 CLI_MSG_ASK_ERR = "\nSaisie incorrecte : «{}»"
 CLI_MSG_QUIT = "\nAu revoir!"
 CLI_MSG_CHOOSEN_CAT = "# # Categorie : [ {} ]\n"
-CLI_MSG_CHOOSEN_PROD = "\n# Produits : [ {} ]"
-CLI_MSG_CHOOSEN_SUBST = "\nSubstitut : [ {} ]"
+CLI_MSG_CHOOSEN_PROD = "# Produits : [ {} ]\n"
+CLI_MSG_CHOOSEN_SUBST = "Substitut : [ {} ]\n"
 CLI_MSG_NO_SUBST = "Pas de substitut trouvé pour le produit «{}» (nutriscore : «{}»)"
 CLI_ITEM_MAX_LEN = 15
 
