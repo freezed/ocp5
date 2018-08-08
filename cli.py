@@ -22,7 +22,7 @@ from config import DB_REQUEST, CLI_MSG_DISCLAIMER, CLI_MSG_ASK_IDX, \
     CLI_ITEM_LIST, CLI_MSG_ASK_BAK, CLI_MSG_BAK_DONE
 cli_end_msg = str()
 product_asked = {'valid_item': False}
-
+cli_end_msg = CLI_MSG_QUIT
 
 def ask_user(head_msg, item_list):
     """
@@ -239,14 +239,5 @@ if product_asked['valid_item']:
 
                 if LOCAL_DB.cursor.rowcount == 1:
                     cli_end_msg = CLI_MSG_BAK_DONE
-
-                else:
-                    cli_end_msg = CLI_MSG_QUIT
-
-        else:
-            cli_end_msg = CLI_MSG_QUIT
-
-else:
-    cli_end_msg = CLI_MSG_QUIT
 
 print(cli_end_msg)
