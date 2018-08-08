@@ -28,7 +28,7 @@ for category in CATEGORY_LIST:
     print(POP_MSG_TEMPLATE['work'].format(category))
     print(POP_MSG_TEMPLATE['fetch'])
 
-    # get data (one page each, TODO multipage)
+    # get data
     staging_data = get_category(category)
 
     # generate SQL

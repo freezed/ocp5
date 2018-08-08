@@ -24,6 +24,7 @@ FIELD_KEPT = {
         'categories_tags'
     ]
 }
+API_URL_CAT = "https://fr.openfoodfacts.org/category/{}/{}.json"
 
 # CLI
 DB_REQUEST = {
@@ -94,13 +95,15 @@ POP_MSG_TEMPLATE = {
 }
 
 CATEGORY_LIST = [
-    'ail',
-    'bio',
-    'blés',
     'roti',
-    'edam',
-    'kits',
-    'farces',
-    'bars',
-    'insectes'
+    'tourtes',
+    'donuts',
+    'boudoirs',
+    'canards',
+    'macarons',
+    'gratins',
+    'bouillons',
+    'entrées',
+    'barres chocolatées',
+    'pizzas',
 ]

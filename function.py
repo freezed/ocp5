@@ -12,8 +12,7 @@ nurition grade.
 """
 import json
 import requests
-# import pprint
-from config import FIELD_KEPT
+from config import FIELD_KEPT, API_URL_CAT
 
 
 def get_product(code, from_file=False):
@@ -130,30 +129,30 @@ def get_category(name, from_file=False):
     >>> prod_false
     False
 
-    # >>> prod_bisc = get_category('biscuits')
+    >>> prod_bles = get_category('blés')
 
     :Tests OFFLINE:
-    >>> prod_bisc = get_category('biscuits', True)
-    >>> prod_bisc['category'] == 'biscuits'
+    # >>> prod_bles = get_category('biscuits', True)
+    >>> prod_bles['category'] == 'biscuits'
     True
 
-    >>> 'count' in prod_bisc
+    >>> 'count' in prod_bles
     True
 
-    >>> 'product_name' in prod_bisc['products'][0]
+    >>> 'product_name' in prod_bles['products'][0]
     True
 
-    >>> 'nutrition_grades' in prod_bisc['products'][0]
+    >>> 'nutrition_grades' in prod_bles['products'][0]
     True
 
-    >>> 'categories_tags' in prod_bisc['products'][0]
+    >>> 'categories_tags' in prod_bles['products'][0]
     True
 
     >>> get_category('wrong_file', True)
     File load error : sample/category-wrong_file.json
     False
 
-    # >>> pprint.pprint(prod_bisc)
+    # >>> pprint.pprint(prod_bles)
     """
 
     if from_file:
@@ -164,38 +163,71 @@ def get_category(name, from_file=False):
         if path.isfile(filename) is False:
             print("File load error : {}".format(filename))
             status = 404
-            category_json = {'count': 0}
+            cat_json = {'count': 0}
 
         else:
             with open(filename, "r") as json_file:
-                category_json = json.loads(json_file.read())
+                cat_json = json.loads(json_file.read())
                 status = 200
+
+    # Requests over API
     else:
-        response = requests.get(
-            "https://fr.openfoodfacts.org/category/{}.json".format(str(name))
-        )
-        category_json = json.loads(response.text)
+        page = 1
+        response = requests.get(API_URL_CAT.format(str(name), page))
+        cat_json = json.loads(response.text)
         status = response.status_code
 
-    if category_json['count'] is not 0 and status == 200:
-        category_kept = {
-            'count': category_json['count'],
+    # Gets data
+    if cat_json['count'] > 0:
+        # Defines dict it will be returned
+        staging_data = {
+            # 'count': cat_json['count'],
             'category': str(name),
             'products': []
-            }
+        }
 
-        for idx, product_fields in enumerate(category_json['products']):
-            category_kept['products'].append(dict())
+        # Counts pages of this category
+        total_pages = int(cat_json['count'] // cat_json['page_size'])
+
+        if int(cat_json['count'] % cat_json['page_size']) > 0:
+            total_pages += 1
+
+        # Loops on data from 1st page
+        for idx, product_fields in enumerate(cat_json['products']):
+            staging_data['products'].append(dict())
 
             for field in FIELD_KEPT['category']:
 
                 if field in product_fields:
-                    category_kept['products'][idx][field] = product_fields[field]
+                    staging_data['products'][idx][field] = product_fields[field]
 
                 else:
-                    category_kept['products'][idx][field] = False
+                    staging_data['products'][idx][field] = False
 
-        return category_kept
+        # Gets data for all other pages
+        while page < total_pages:
+            # Requests next page over API
+            page += 1
+            response = requests.get(API_URL_CAT.format(str(name), page))
+            cat_json = json.loads(response.text)
+            idx = len(staging_data['products'])
+
+            for product_fields in cat_json['products']:
+                staging_data['products'].append(dict())
+
+                for field in FIELD_KEPT['category']:
+                    # import pdb; pdb.set_trace()
+                    if field in product_fields:
+                        staging_data['products'][idx][field] = product_fields[field]
+
+                    else:
+                        staging_data['products'][idx][field] = False
+
+                idx += 1
+
+            print("\t\t[…finish page {}/{} - {} ids]".format(page, total_pages, idx))
+
+        return staging_data
 
     else:
         return False
