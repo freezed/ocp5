@@ -27,31 +27,24 @@ nutrition_grades
 
 ![-Physical Data Model-][96]
 
-3. Creates local MariaDB/MySQL : `./populate.py`
+3. Edit [config.py](https://github.com/freezed/ocp5/blob/master/config.py)
+4. Creates local MariaDB/MySQL : `python ./populate-.py`
 
 ## Use de CLI to get alternate product
 
-1. ~run it : `./main.py`~ [`TODO #5`][5]
-2. ~follow instructions :~ [`TODO #5`][5]
+1. run it : `python ./cli.py`
+2. follow instructions :
 
-    1. Find an alternative product
+    1. Find a substitute product
 
         1. Type the number corresponding to the product's category
-        2. Type the number corresponding to the choosen alternative product
+        2. Type the number corresponding to the choosen substitute product
         3. The system shows you the product sheet :
              - description
-             - a shop where you can buy it (if available)
              - the product link to [OpenFoodFacts][91] website
-        4. Decide if you want to save the alternative product in DB
+        4. Decide if you want to save the substitute product in DB
 
-    2. Retrieve saved alternatives products
-
-        1. Type the number corresponding to the choosen alternative product
-        2. The system shows you the product sheet :
-             - description
-             - a shop where you can buy it (if available)
-             - the product link to [OpenFoodFacts][91] website
-
+    2. Retrieve saved substitutes
 
 [91]: https://world.openfoodfacts.org/ "OpenFoodFacts project"
 [92]: https://world.openfoodfacts.org/data/data-fields.txt "OpenFoodFacts field list"
@@ -59,6 +52,3 @@ nutrition_grades
 [94]: https://world.openfoodfacts.org/data "OpenFoodFacts data page"
 [95]: https://github.com/freezed/ocp5/blob/master/create-db.sql
 [96]: https://raw.githubusercontent.com/freezed/ocp5/master/doc/pdm.png "Image of the physical data model"
-[2]: https://github.com/freezed/ocp5/issues/2 "Issue #2"
-[4]: https://github.com/freezed/ocp5/issues/4 "Issue #4"
-[5]: https://github.com/freezed/ocp5/issues/5 "Issue #5"
