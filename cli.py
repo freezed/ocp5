@@ -18,11 +18,13 @@ from db import Db
 from config import DB_REQUEST, CLI_MSG_DISCLAIMER, CLI_MSG_ASK_IDX, \
     CLI_MSG_ASK_ERR, CLI_MSG_QUIT, CLI_MSG_CHOOSEN_CAT, CLI_MSG_PROD, \
     CLI_MSG_SUBST, CLI_MSG_NO_SUBST, CLI_MSG_CAT, CLI_MSG_CHOOSEN_PROD, \
-    CLI_MSG_DETAILLED_SUB, CLI_MSG_CHOOSEN_SUBST, CLI_ITEM_MAX_LEN, \
-    CLI_ITEM_LIST, CLI_MSG_ASK_BAK, CLI_MSG_BAK_DONE
-cli_end_msg = str()
+    CLI_MSG_DETAILLED_SUB, CLI_MAX_LEN, \
+    CLI_ITEM_LIST, CLI_MSG_ASK_BAK, CLI_MSG_BAK_DONE, CLI_MSG_INIT_MENU,\
+    CLI_MSG_SUBST_HEAD, CLI_MSG_SUBST_TITLE, CLI_MSG_SUBST_LIST
+
 product_asked = {'valid_item': False}
 cli_end_msg = CLI_MSG_QUIT
+
 
 def ask_user(head_msg, item_list):
     """
@@ -98,12 +100,12 @@ def get_data_list(db_obj, sql):
     # Hacky results-split for rendering in 2 columns
     res_even = [(
         idx,
-        val['name'][:CLI_ITEM_MAX_LEN].ljust(CLI_ITEM_MAX_LEN),
+        val['name'][:CLI_MAX_LEN].ljust(CLI_MAX_LEN),
         val['option'], val['id']
     ) for idx, val in enumerate(db_obj.result) if idx % 2 == 0]
     res_uneven = [(
         idx,
-        val['name'][:CLI_ITEM_MAX_LEN],
+        val['name'][:CLI_MAX_LEN],
         val['option'],
         val['id']
     ) for idx, val in enumerate(db_obj.result) if idx % 2 != 0]
@@ -131,113 +133,159 @@ def get_data_list(db_obj, sql):
     }
 
 
+def start_init_menu():
+    """ Ask for saved substitution or searching new one """
+    LOCAL_DB.execute(DB_REQUEST['list_substituated_prod'])
+
+    if LOCAL_DB.cursor.rowcount > 0:
+        menu_list = {
+            'results_txt': CLI_MSG_INIT_MENU,
+            'results_list': [False, True],
+            'max_id': 1
+        }
+
+        # Ask for saved list or search new one
+        menu_asked = ask_user(
+            CLI_MSG_DISCLAIMER,
+            menu_list
+        )
+
+        # Shows saved list
+        if menu_asked['valid_item'] and menu_asked['item']:
+            cli_msg_subst_recap = CLI_MSG_SUBST_TITLE + CLI_MSG_SUBST_HEAD
+
+            for row in LOCAL_DB.result:
+                cli_msg_subst_recap += CLI_MSG_SUBST_LIST.format(
+                    pname=row['pname'][:CLI_MAX_LEN].center(CLI_MAX_LEN),
+                    sname=row['sname'][:CLI_MAX_LEN].center(CLI_MAX_LEN),
+                )
+            return (True, cli_msg_subst_recap)
+
+        return (False, "")
+
+    return (False, "Pas de substitutions enregistée")
+
+
 # Starts a DB connection
 LOCAL_DB = Db()
+
+################
+# INITIAL MENU #
+################
+init_menu = start_init_menu()
+
+#############################
+# LISTS SAVED SUBSTITUTIONS #
+#############################
+if init_menu[0]:
+    cli_end_msg = init_menu[1]
 
 ####################
 # LISTS CATEGORIES #
 ####################
-category_list = get_data_list(
-    LOCAL_DB,
-    DB_REQUEST['list_cat']
-)
-
-head_msg = CLI_MSG_DISCLAIMER
-head_msg += CLI_MSG_CAT
-
-# Asks the user to select a category
-category_asked = ask_user(
-    head_msg,
-    category_list
-)
-
-##################
-# LISTS PRODUCTS #
-##################
-if category_asked['valid_item']:
-    product_list = get_data_list(
-        LOCAL_DB, DB_REQUEST['list_prod'].format(category_asked['item'][3])
-    )
-
-    head_msg = CLI_MSG_DISCLAIMER
-    head_msg += CLI_MSG_CHOOSEN_CAT.format(category_asked['item'][1])
-    head_msg += CLI_MSG_PROD
-
-    # Asks the user to select a product
-    product_asked = ask_user(
-        head_msg,
-        product_list
-    )
-
-####################
-# LISTS SUBTITUTES #
-####################
-if product_asked['valid_item']:
-    substitute_list = get_data_list(
+else:
+    category_list = get_data_list(
         LOCAL_DB,
-        DB_REQUEST['list_substitute'].format(
-            category_asked['item'][3],
-            product_asked['item'][2]
-        )
+        DB_REQUEST['list_cat']
     )
 
     head_msg = CLI_MSG_DISCLAIMER
-    head_msg += CLI_MSG_CHOOSEN_CAT.format(category_asked['item'][1])
-    head_msg += CLI_MSG_CHOOSEN_PROD.format(product_asked['item'][1])
-    head_msg += CLI_MSG_SUBST
+    head_msg += init_menu[1]
+    head_msg += CLI_MSG_CAT
 
-    # No substitute found
-    if substitute_list['max_id'] == -1:
-        cli_end_msg = CLI_MSG_NO_SUBST.format(
-            product_asked['item'][1],
-            product_asked['item'][2]
+    # Asks the user to select a category
+    category_asked = ask_user(
+        head_msg,
+        category_list
+    )
+
+    ##################
+    # LISTS PRODUCTS #
+    ##################
+    if category_asked['valid_item']:
+        product_list = get_data_list(
+            LOCAL_DB,
+            DB_REQUEST['list_prod'].format(category_asked['item'][3])
         )
 
-    # Asks the user to select a substitute
-    elif substitute_list['max_id'] > 0:
-        substit_asked = ask_user(
+        head_msg = CLI_MSG_DISCLAIMER
+        head_msg += CLI_MSG_CHOOSEN_CAT.format(category_asked['item'][1])
+        head_msg += CLI_MSG_PROD
+
+        # Asks the user to select a product
+        product_asked = ask_user(
             head_msg,
-            substitute_list
+            product_list
         )
 
-        ##########################
-        # SHOW SUBTITUTE DETAILS #
-        ##########################
-        if substit_asked['valid_item']:
-            LOCAL_DB.execute(DB_REQUEST['select_substitute'].format(
-                substit_asked['item'][3]
-            ))
+    ####################
+    # LISTS SUBTITUTES #
+    ####################
+    if product_asked['valid_item']:
+        substitute_list = get_data_list(
+            LOCAL_DB,
+            DB_REQUEST['list_substitute'].format(
+                category_asked['item'][3],
+                product_asked['item'][2]
+            )
+        )
 
-            head_msg = CLI_MSG_DISCLAIMER +\
-               CLI_MSG_CHOOSEN_CAT.format(category_asked['item'][1]) +\
-               CLI_MSG_CHOOSEN_PROD.format(product_asked['item'][1]) +\
-               CLI_MSG_CHOOSEN_SUBST.format(substit_asked['item'][1])
+        head_msg = CLI_MSG_DISCLAIMER
+        head_msg += CLI_MSG_CHOOSEN_CAT.format(category_asked['item'][1])
+        head_msg += CLI_MSG_CHOOSEN_PROD.format(product_asked['item'][1])
+        head_msg += CLI_MSG_SUBST
 
-            backup_list = {
-                'results_txt': CLI_MSG_DETAILLED_SUB.format(
-                    code=LOCAL_DB.result[0]['code'],
-                    nutri=LOCAL_DB.result[0]['nutrition_grades'],
-                    url=LOCAL_DB.result[0]['url']) + CLI_MSG_ASK_BAK.format(
+        # No substitute found
+        if substitute_list['max_id'] == -1:
+            cli_end_msg = CLI_MSG_NO_SUBST.format(
+                product_asked['item'][1],
+                product_asked['item'][2]
+            )
+
+        # Asks the user to select a substitute
+        elif substitute_list['max_id'] > 0:
+            substit_asked = ask_user(
+                head_msg,
+                substitute_list
+            )
+
+            ##########################
+            # SHOW SUBTITUTE DETAILS #
+            ##########################
+            if substit_asked['valid_item']:
+                LOCAL_DB.execute(DB_REQUEST['select_substitute'].format(
+                    substit_asked['item'][3]
+                ))
+
+                head_msg = CLI_MSG_DISCLAIMER +\
+                    CLI_MSG_CHOOSEN_CAT.forqormat(substit_asked['item'][1])
+
+                backup_list = {
+                    'results_txt': CLI_MSG_DETAILLED_SUB.format(
+                        code=LOCAL_DB.result[0]['code'],
+                        nutri=LOCAL_DB.result[0]['nutrition_grades'],
+                        url=LOCAL_DB.result[0]['url']
+                    ) + CLI_MSG_ASK_BAK.format(
                         substit_asked['item'][1],
                         product_asked['item'][1]
                     ),
-                'results_list': [False, True],
-                'max_id': 1
-            }
+                    'results_list': [False, True],
+                    'max_id': 1
+                }
 
-            # Saves if user choose it
-            backup_asked = ask_user(
-                head_msg,
-                backup_list
-            )
+                # Saves if user choose it
+                backup_asked = ask_user(
+                    head_msg,
+                    backup_list
+                )
 
-            if backup_asked['valid_item'] and backup_asked['item']:
-                LOCAL_DB.execute(DB_REQUEST['save_substitute'].format(
-                    substit_asked['item'][3],
-                    product_asked['item'][3]
-                ))
+                if backup_asked['valid_item'] and backup_asked['item']:
+                    LOCAL_DB.execute(DB_REQUEST['save_substitute'].format(
+                        substit_asked['item'][3],
+                        product_asked['item'][3]
+                    ))
 
-                if LOCAL_DB.cursor.rowcount == 1:
-                    cli_end_msg = CLI_MSG_BAK_DONE
+                    if LOCAL_DB.cursor.rowcount == 1:
+                        cli_end_msg = CLI_MSG_BAK_DONE
 
 print(cli_end_msg)

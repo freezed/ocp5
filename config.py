@@ -32,30 +32,38 @@ DB_REQUEST = {
     'list_substitute': "SELECT p.name, p.nutrition_grades AS 'option', p.id AS 'id' FROM product AS p LEFT JOIN category AS c ON p.category_id = c.id WHERE c.id = '{}' AND p.nutrition_grades < '{}'",
     'select_substitute': "SELECT p.*, c.name FROM product AS p LEFT JOIN category AS c ON p.category_id = c.id WHERE p.id = '{}'",
     'save_substitute': "UPDATE product SET substitute_id={} WHERE id={}",
+    'list_substituated_prod': "SELECT p.name AS pname, p.nutrition_grades AS pnutri, sub.name AS sname, sub.nutrition_grades AS snutri FROM product AS p LEFT JOIN category AS c ON p.category_id = c.id JOIN product AS sub ON sub.id = p.substitute_id WHERE p.substitute_id IS NOT NULL;",
 }
 
-CLI_ITEM_MAX_LEN = 30
-CLI_ITEM_LIST = "{} : {} \t {} : {}\n"
-CLI_MSG_QUIT = "\nAu revoir!"
-CLI_MSG_DISCLAIMER = "# # # Bienvenu sur le terminal # # #\n\n"
-CLI_MSG_CAT = "Catégories disponibles :\n"
-CLI_MSG_PROD = "Produits disponibles :\n"
+CLI_MAX_LEN = 30
 CLI_MSG_SUBST = "Substituts disponibles :\n"
-CLI_MSG_ASK_IDX = "Index choisi [0-{}] («Q»uitter) :"
-CLI_MSG_ASK_BAK = "Sauvegarder «{}»\nen substitut du produit «{}»?"\
-    "\n\t0: non\n\t1: oui\n\tQ: quitter"
+CLI_MSG_QUIT = "\nAu revoir!"
 
+
+CLI_ITEM_LIST = "{} : {} \t {} : {}\n"
+CLI_MSG_INIT_MENU = CLI_MSG_SUBST + "Voulez vous les consulter?\n"\
+    "\n\t0: non\n\t1: oui"
+CLI_MSG_ASK_BAK = "Sauvegarder «{}»\nen substitut du produit «{}»?"\
+    "\n\t0: non\n\t1: oui"
+CLI_MSG_ASK_ERR = "\nSaisie incorrecte : «{}»"
+CLI_MSG_ASK_IDX = "Index choisi [0-{}] :"
+CLI_MSG_BAK_DONE = "\nSubstitut sauvegardé" + CLI_MSG_QUIT
+CLI_MSG_CAT = "Catégories disponibles :\n"
 CLI_MSG_CHOOSEN_CAT = "# # Categorie : [ {} ]\n"
 CLI_MSG_CHOOSEN_PROD = "# Produits : [ {} ]\n"
-CLI_MSG_CHOOSEN_SUBST = "Fiche complète du substitut : [ {} ]\n"
 CLI_MSG_DETAILLED_SUB = "Nutriscore [ {nutri} ]\tCode [ {code} ]"\
     "\nURL:{url}\n\n"
-
+CLI_MSG_DISCLAIMER = "# # # Bienvenu sur PyOFF # # #\n\n"
 CLI_MSG_NO_SUBST = "Pas de substitut trouvé pour le produit «{}»"\
     "(nutriscore : «{}»)" + CLI_MSG_QUIT
+CLI_MSG_PROD = "Produits disponibles :\n"
+CLI_MSG_SUBST_LIST = "{pname}\t{sname}\n"
+CLI_MSG_SUBST_TITLE = "\n" + "# # SUBSTITUTIONS ENREGISTRÉES # #".center(
+    2 * CLI_MAX_LEN
+) + "\n"
+CLI_MSG_SUBST_HEAD = "PRODUIT :".center(CLI_MAX_LEN) + \
+    "SUBSTITUT :".center(CLI_MAX_LEN) + "\n"
 
-CLI_MSG_ASK_ERR = "\nSaisie incorrecte : «{}»"
-CLI_MSG_BAK_DONE = "\nSustitut sauvegardé" + CLI_MSG_QUIT
 
 # DATABASE
 DB_CONFIG = {
