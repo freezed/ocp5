@@ -258,7 +258,7 @@ else:
                 ))
 
                 head_msg = CLI_MSG_DISCLAIMER +\
-                    CLI_MSG_CHOOSEN_CAT.forqormat(substit_asked['item'][1])
+                    CLI_MSG_CHOOSEN_CAT.format(substit_asked['item'][1])
 
                 backup_list = {
                     'results_txt': CLI_MSG_DETAILLED_SUB.format(
