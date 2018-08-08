@@ -19,7 +19,7 @@ from config import DB_REQUEST, CLI_MSG_DISCLAIMER, CLI_MSG_ASK_IDX, \
     CLI_MSG_ASK_ERR, CLI_MSG_QUIT, CLI_MSG_CHOOSEN_CAT, CLI_MSG_PROD, \
     CLI_MSG_SUBST, CLI_MSG_NO_SUBST, CLI_MSG_CAT, CLI_MSG_CHOOSEN_PROD, \
     CLI_MSG_DETAILLED_SUB, CLI_MSG_CHOOSEN_SUBST, CLI_ITEM_MAX_LEN, \
-    CLI_ITEM_LIST
+    CLI_ITEM_LIST, CLI_MSG_ASK_BAK, CLI_MSG_BAK_DONE
 cli_end_msg = str()
 product_asked = {'valid_item': False}
 
@@ -208,20 +208,40 @@ if product_asked['valid_item']:
                 substit_asked['item'][3]
             ))
 
-            head_msg = CLI_MSG_DISCLAIMER
-            head_msg += CLI_MSG_CHOOSEN_CAT.format(category_asked['item'][1])
-            head_msg += CLI_MSG_CHOOSEN_PROD.format(product_asked['item'][1])
-            head_msg += CLI_MSG_CHOOSEN_SUBST.format(substit_asked['item'][1])
-            head_msg += CLI_MSG_DETAILLED_SUB.format(
-                code=LOCAL_DB.result[0]['code'],
-                nutri=LOCAL_DB.result[0]['nutrition_grades'],
-                url=LOCAL_DB.result[0]['url']
-            )
+            head_msg = CLI_MSG_DISCLAIMER +\
+               CLI_MSG_CHOOSEN_CAT.format(category_asked['item'][1]) +\
+               CLI_MSG_CHOOSEN_PROD.format(product_asked['item'][1]) +\
+               CLI_MSG_CHOOSEN_SUBST.format(substit_asked['item'][1])
 
-            system('clear')
-            print(head_msg)
+            backup_list = {
+                'results_txt': CLI_MSG_DETAILLED_SUB.format(
+                    code=LOCAL_DB.result[0]['code'],
+                    nutri=LOCAL_DB.result[0]['nutrition_grades'],
+                    url=LOCAL_DB.result[0]['url']) + CLI_MSG_ASK_BAK.format(
+                        substit_asked['item'][1],
+                        product_asked['item'][1]
+                    ),
+                'results_list': [False, True],
+                'max_id': 1
+            }
 
             # Saves if user choose it
+            backup_asked = ask_user(
+                head_msg,
+                backup_list
+            )
+
+            if backup_asked['valid_item'] and backup_asked['item']:
+                LOCAL_DB.execute(DB_REQUEST['save_substitute'].format(
+                    substit_asked['item'][3],
+                    product_asked['item'][3]
+                ))
+
+                if LOCAL_DB.cursor.rowcount == 1:
+                    cli_end_msg = CLI_MSG_BAK_DONE
+
+                else:
+                    cli_end_msg = CLI_MSG_QUIT
 
         else:
             cli_end_msg = CLI_MSG_QUIT

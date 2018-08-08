@@ -36,23 +36,26 @@ DB_REQUEST = {
 
 CLI_ITEM_MAX_LEN = 30
 CLI_ITEM_LIST = "{} : {} \t {} : {}\n"
+CLI_MSG_QUIT = "\nAu revoir!"
 CLI_MSG_DISCLAIMER = "# # # Bienvenu sur le terminal # # #\n\n"
 CLI_MSG_CAT = "Catégories disponibles :\n"
 CLI_MSG_PROD = "Produits disponibles :\n"
 CLI_MSG_SUBST = "Substituts disponibles :\n"
 CLI_MSG_ASK_IDX = "Index choisi [0-{}] («Q»uitter) :"
-CLI_MSG_ASK_BAK = "Voulez vous sauvegarder «{}» en substitut du produit «{}»?"\
-    " [O/N]\n(«Q» pour quitter): "
+CLI_MSG_ASK_BAK = "Sauvegarder «{}»\nen substitut du produit «{}»?"\
+    "\n\t0: non\n\t1: oui\n\tQ: quitter"
 
 CLI_MSG_CHOOSEN_CAT = "# # Categorie : [ {} ]\n"
 CLI_MSG_CHOOSEN_PROD = "# Produits : [ {} ]\n"
 CLI_MSG_CHOOSEN_SUBST = "Fiche complète du substitut : [ {} ]\n"
 CLI_MSG_DETAILLED_SUB = "Nutriscore [ {nutri} ]\tCode [ {code} ]"\
-    "\nURL:{url}"
+    "\nURL:{url}\n\n"
 
-CLI_MSG_NO_SUBST = "Pas de substitut trouvé pour le produit «{}» (nutriscore : «{}»)"
+CLI_MSG_NO_SUBST = "Pas de substitut trouvé pour le produit «{}»"\
+    "(nutriscore : «{}»)" + CLI_MSG_QUIT
+
 CLI_MSG_ASK_ERR = "\nSaisie incorrecte : «{}»"
-CLI_MSG_QUIT = "\nAu revoir!"
+CLI_MSG_BAK_DONE = "\nSustitut sauvegardé" + CLI_MSG_QUIT
 
 # DATABASE
 DB_CONFIG = {
