@@ -103,28 +103,38 @@ def get_data_list(db_obj, sql):
         val['name'][:CLI_MAX_LEN].ljust(CLI_MAX_LEN),
         val['option'], val['id']
     ) for idx, val in enumerate(db_obj.result) if idx % 2 == 0]
+
     res_uneven = [(
         idx,
         val['name'][:CLI_MAX_LEN],
         val['option'],
         val['id']
     ) for idx, val in enumerate(db_obj.result) if idx % 2 != 0]
+
     # category list
     results_txt = ""
-    for num, unused in enumerate(res_uneven):
-        results_txt += CLI_ITEM_LIST.format(
-            res_even[num][0],
-            res_even[num][1],
-            res_uneven[num][0],
-            res_uneven[num][1]
+
+    if len(res_uneven) == 0 and len(res_even) > 0:
+        results_txt += "{} : {}\n".format(
+            res_even[0][0],
+            res_even[0][1]
         )
 
-    if len(res_uneven) < len(res_even):
-        num += 1
-        results_txt += "{} : {}\n".format(
-            res_even[num][0],
-            res_even[num][1]
-        )
+    else:
+        for num, unused in enumerate(res_uneven):
+            results_txt += CLI_ITEM_LIST.format(
+                res_even[num][0],
+                res_even[num][1],
+                res_uneven[num][0],
+                res_uneven[num][1]
+            )
+
+        if len(res_uneven) < len(res_even):
+            num += 1
+            results_txt += "{} : {}\n".format(
+                res_even[num][0],
+                res_even[num][1]
+            )
 
     return {
         'max_id': max_id,
@@ -243,7 +253,7 @@ else:
             )
 
         # Asks the user to select a substitute
-        elif substitute_list['max_id'] > 0:
+        elif substitute_list['max_id'] >= 0:
             substit_asked = ask_user(
                 head_msg,
                 substitute_list
