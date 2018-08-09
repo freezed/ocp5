@@ -2,7 +2,7 @@
 
 # [PyDev] Project 5 : Use public data of [Open Food Facts][1] project
 
-_Last version of this document is avaiable on [github][4]._
+_Last version of this document is available on [github][4]._
 
 ## Approach
 
@@ -12,27 +12,30 @@ Search substitute for food product in the [Open Food Facts][1] DB and displays p
 
 The user can:
 
- - interacts with the system in the terminal
- - saves products for later retrieval
+ - interact with the system in the terminal
+ - save products for later retrieval
 
-In my opinion, this is a nice cross-techiques project :
+This project was created for studying purpose, to train these tools :
 
-- manipulating REST API, with the help of the `requests` package
-- connecting a `MySQL` DB with the help of the `PyMySQL` package
-- working on a (local) `MariaDB` server with the help of the `MySQL` client `mycli`
+- manipulating [Open Food Facts `REST API`][9] with [`Requests`][6]
+- connecting a `MySQL` DB with [`PyMySQL`][7]
+- using a [`MariaDB`][8] server with a `MySQL` CLI (`mycli`)
 - creating an interactive script
 
-The whole project description is avaiable on [OpenClassrooms site][2].
+
+[](https://world.openfoodfacts.org/) t purpose. It can evolve beyond for training with [PyMySQL](), [Requests]() and [OpenFF API](https://en.wiki.openfoodfacts.org/API).
+
+The whole exercise description is available on [OpenClassrooms site][2].
 
 The project is hosted on [github][5].
 
 ### Workflow
 
- - plan the work : features, scripts, tool needed
- - creates issues for each autonomous package
- - organize it all in a table
- - write documentation, as text & (doc)test
- - writes code
+ - plan the work : features, scripts, files, functions tool needed…
+ - create `features`, grouped in autonomous packages
+ - organize `features` in a _kanban_ type table
+ - write documentation, as text & [`doctest`][3]
+ - write code
 
 
 ### Code construction
@@ -41,34 +44,30 @@ To build the script, I followed this approach :
 
 1. take in hand the necessary tools
 2. get started with some the basic features/tools
-3. then add more specificdetailed fonctionalities
+3. finally add more specific detailed functionalities
 
-Concretely this is expressed by :
+Concretely :
 
 - familiarize myself with the data stored in the DB (playing with the CSV file)
 - use the API in a basic way (see `get_product()` function)
 - imagine the main SQL queries
-- using PyMySQL in a basic way
+- use `PyMySQL` in a basic way
 - create an interface object with the DB
 - create the script interfacing the API and the DB
-- creation of the DB client used by the client
+- create the DB CLI used by the user
 
 
-### Code organisation
+### Code organization
 
 - `config.py`          : configuration
-- `cli.py`             : the user interface script
+- `cli.py`             : user interface script
 - `db.py`              : DB class used by all scripts
 - `function.py`        : files with functions used by all scripts
-- `populate-db.py`     : backoffice script used to populate DB using API
-- `create-db-loff.sql` : backoffice script used to creates local (empty) DB
+- `populate-db.py`     : back-office script used to populate DB using API
+- `create-db-loff.sql` : back-office script used to creates local (empty) DB
 - `doc`                : documentation folder
 - `legacy-sql`         : first SQL manipulations (just for memories)
-- `sample`             : OpenFF JSON category & product files (to work offline and lower API usage)
-- `requirements.txt`   : _as itself_
-- `LICENSE`            : _as itself_
-- `README.md`          : _as itself_
-- `.gitignore`         : _as itself_
+- `sample`             : _Open Food Facts_ category & product JSON files (to work offline and lower API usage)
 
 
 ### Difficulties encountered
@@ -79,11 +78,11 @@ Before exchanging with my mentor I think about using the CSV file as a resource 
 
 #### Creating class Db():
 
-Tests are not required in this project but, using [`doctest`][3] is a precious help when I code. Here was an opportunity for me to use them in a class, causing trouble where the test are usefull : In the class declaration or in the methods?
+Tests are not required in this project but, using [`doctest`][3] is a precious help when I code. It was an opportunity for me to use them in a class, dealing with trouble like «where the test are useful»?
 
 #### Stay in the scope
 
-Not easy to settle for initial specifications that can be interpreted. Similarly for the levels of detail, it is easy to get caught up in a design where they are places for evolutions/new features.
+Not easy to frame initial specifications that have a part of interpretation. Similarly for the levels of details, it is easy to slip into a design where they are places for evolution and/or new features.
 
 
 [1]: https://fr.openfoodfacts.org/ "Open Food Facts répertorie les produits alimentaires du monde entier"
@@ -91,3 +90,7 @@ Not easy to settle for initial specifications that can be interpreted. Similarly
 [3]: https://docs.python.org/fr/3.6/library/doctest.html "Test interactive Python examples"
 [4]: https://github.com/freezed/ocp5/blob/master/doc/approach.md
 [5]: https://github.com/freezed/ocp5/projects/1
+[6]: https://pypi.org/project/requests/#description "Requests is the only Non-GMO HTTP library for Python, safe for human consumption"
+[7]: https://pymysql.readthedocs.io/en/latest/ "Pure Python MySQL Client"
+[8]: https://mariadb.org/ "One of the most popular database servers. Made by the original developers of MySQL. Guaranteed to stay open source."
+[9]: https://en.wiki.openfoodfacts.org/API "Open Food Facts API"
