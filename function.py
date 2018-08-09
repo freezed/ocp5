@@ -6,7 +6,7 @@ Author: freezed <freezed@users.noreply.github.com> 2018-07-24
 Version: 0.1
 Licence: `GNU GPL v3` GNU GPL v3: http://www.gnu.org/licenses/
 
-Call OpenFF API to populate a local MariaDB/MySQL database with product data
+Call Open Food Facts API to populate a local MariaDB/MySQL database with product data
 This DB will serve an CLI client which gives alternative products with better
 nurition grade.
 """
@@ -17,7 +17,7 @@ from config import FIELD_KEPT, API_URL_CAT
 
 def get_product(code, from_file=False):
     """
-    Call OpenFF API to get data of a single product
+    Call Open Food Facts API to get data of a single product
 
     :Tests ONLINE:
     # >>> prod_beurre = get_product('3017760000109')
@@ -116,7 +116,7 @@ def get_product(code, from_file=False):
 
 def get_category(name, from_file=False):
     """
-    Call OpenFF API to get data of products in a single category
+    Call Open Food Facts API to get data of products in a single category
 
     :return: Dict filled with products & kept fields
 
@@ -216,7 +216,7 @@ def get_category(name, from_file=False):
                 staging_data['products'].append(dict())
 
                 for field in FIELD_KEPT['category']:
-                    # import pdb; pdb.set_trace()
+
                     if field in product_fields:
                         staging_data['products'][idx][field] = product_fields[field]
 

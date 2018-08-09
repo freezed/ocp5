@@ -6,7 +6,7 @@ Author: freezed <freezed@users.noreply.github.com> 2018-08-02
 Version: 0.1
 Licence: `GNU GPL v3` GNU GPL v3: http://www.gnu.org/licenses/
 
-Populates local DB with data comming from OpenFF API
+Populates local DB with data comming from Open Food Facts API
 
 :Tests:
 >>> CATEGORY_LIST.append('falsecategory')
@@ -28,13 +28,13 @@ for category in CATEGORY_LIST:
     print(POP_MSG_TEMPLATE['work'].format(category))
     print(POP_MSG_TEMPLATE['fetch'])
 
-    # get data
+    # gets data
     staging_data = get_category(category)
 
-    # generate SQL
+    # generates SQL
     sql_list = sql_generator(staging_data)
 
-    # execute SQL
+    # executes SQL
     print(POP_MSG_TEMPLATE['insert'].format(category))
 
     if sql_list is False:
